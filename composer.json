@@ -1,0 +1,25 @@
+{
+	"name": "wavevision/utils",
+	"description": "Set of useful PHP utilities and helpers.",
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Wavevision s.r.o.",
+			"email": "info@wavevision.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Wavevision\\": "src/"
+		}
+	},
+	"require": {
+		"php": ">=7.2",
+		"ext-iconv": "*",
+		"nette/utils": "^3.0"
+	},
+	"require-dev": {
+		"wavevision/coding-standard": "dev-master"
+	}
+}
