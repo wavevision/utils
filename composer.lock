@@ -228,12 +228,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wavevision/coding-standard.git",
-                "reference": "7f9e8ca259f9619ba840a37cd4c960fd09a6671e"
+                "reference": "d6e191c3d30aad8c63a1f5763437a17733c2d05a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wavevision/coding-standard/zipball/7f9e8ca259f9619ba840a37cd4c960fd09a6671e",
-                "reference": "7f9e8ca259f9619ba840a37cd4c960fd09a6671e",
+                "url": "https://api.github.com/repos/wavevision/coding-standard/zipball/d6e191c3d30aad8c63a1f5763437a17733c2d05a",
+                "reference": "d6e191c3d30aad8c63a1f5763437a17733c2d05a",
                 "shasum": ""
             },
             "require": {
@@ -241,6 +241,11 @@
                 "slevomat/coding-standard": "^5.0"
             },
             "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WavevisionCodingStandard\\": "php/WavevivisionCodingStandard/"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -261,7 +266,7 @@
             ],
             "description": "The Wavevision PHP coding standard.",
             "homepage": "https://github.com/wavevision/coding-standard",
-            "time": "2019-09-04T15:00:01+00:00"
+            "time": "2019-09-09T10:24:13+00:00"
         }
     ],
     "aliases": [],
