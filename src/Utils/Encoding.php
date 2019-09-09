@@ -1,4 +1,4 @@
-<?php declare (strict_types=1);
+<?php declare (strict_types = 1);
 
 namespace Wavevision\Utils;
 
@@ -8,9 +8,21 @@ class Encoding
 {
 
 	use StaticClass;
+
+	public const EMOJI_PATTERNS = [
+		'/[\x{1F600}-\x{1F64F}]/u',
+		'/[\x{1F300}-\x{1F5FF}]/u',
+		'/[\x{1F680}-\x{1F6FF}]/u',
+		'/[\x{2600}-\x{26FF}]/u',
+		'/[\x{2700}-\x{27BF}]/u',
+	];
+
 	public const LATIN = 'ISO-8859-2';
+
 	public const UTF = 'UTF-8';
+
 	public const UTF_2_WIN_PATTERN = '#[^\x00-\x7F\xa0\xa4\xa6-\xa9\xab-\xae\xb0\xb1\xb4-\xb8\xbb\xc1\xc2\xc4\xc7\xc9\xcb\xcd\xce\xd3\xd4\xd6\xd7\xda\xdc\xdd\xdf\xe1\xe2\xe4\xe7\xe9\xeb\xed\xee\xf3\xf4\xf6\xf7\xfa\xfc\xfd\x{102}-\x{107}\x{10c}-\x{111}\x{118}-\x{11b}\x{139}\x{13a}\x{13d}\x{13e}\x{141}-\x{144}\x{147}\x{148}\x{150}\x{151}\x{154}\x{155}\x{158}-\x{15b}\x{15e}-\x{165}\x{16e}-\x{171}\x{179}-\x{17e}\x{2c7}\x{2d8}\x{2d9}\x{2db}\x{2dd}\x{2013}\x{2014}\x{2018}-\x{201a}\x{201c}-\x{201e}\x{2020}-\x{2022}\x{2026}\x{2030}\x{2039}\x{203a}\x{20ac}\x{2122}]#u';
+
 	public const UTF_2_WIN_TABLE = [
 		"\xe2\x82\xac" => "\x80",
 		"\xe2\x80\x9a" => "\x82",
@@ -136,7 +148,10 @@ class Encoding
 		"\xc5\xa3" => "\xfe",
 		"\xcb\x99" => "\xff",
 	];
+
 	public const UTF_PATTERN = '#[\x80-\x{1FF}\x{2000}-\x{3FFF}]#u';
+
 	public const WIN_PATTERN = '#[\x7F-\x9F\xBC]#';
+
 	public const WINDOWS_1250 = 'WINDOWS-1250';
 }

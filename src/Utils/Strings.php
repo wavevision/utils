@@ -1,4 +1,4 @@
-<?php declare (strict_types=1);
+<?php declare (strict_types = 1);
 
 namespace Wavevision\Utils;
 
@@ -23,12 +23,22 @@ class Strings extends NetteStrings
 		return $output;
 	}
 
+	public static function camelCaseToDashCase(string $s): string
+	{
+		return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $s));
+	}
+
+	/**
+	 * @param array<string> $s
+	 * @param string $glue
+	 * @return string
+	 */
 	public static function concat(array $s, string $glue = ''): string
 	{
 		return implode($glue, $s);
 	}
 
-	public static function contains($haystack, $needle, bool $caseSensitive = true): bool
+	public static function contains(string $haystack, string $needle, bool $caseSensitive = true): bool
 	{
 		if ($caseSensitive === true) {
 			return parent::contains($haystack, $needle);
@@ -58,9 +68,28 @@ class Strings extends NetteStrings
 		}
 	}
 
+	public static function dashCaseToCamelCase(string $string): string
+	{
+		return lcfirst(str_replace('-', '', ucwords($string, '-')));
+	}
+
+	public static function getClassNameFromNamespace(string $namespace, bool $camelCase = false): string
+	{
+		$className = substr(strrchr($namespace, '\\'), 1);
+		return $camelCase ? lcfirst($className) : $className;
+	}
+
 	public static function removeBlankLines(string $s): string
 	{
 		return preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $s);
+	}
+
+	public static function removeEmoji(string $s): string
+	{
+		foreach (Encoding::EMOJI_PATTERNS as $pattern) {
+			$s = self::replace($s, $pattern, '');
+		}
+		return $s;
 	}
 
 	public static function trimBlankLines(string $s): string
