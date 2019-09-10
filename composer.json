@@ -11,7 +11,8 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"Wavevision\\": "src/"
+			"Wavevision\\": "src",
+			"Wavevision\\Tests\\": "tests"
 		}
 	},
 	"require": {
@@ -20,6 +21,23 @@
 		"nette/utils": "^3.0"
 	},
 	"require-dev": {
+		"jakub-onderka/php-parallel-lint": "^1.0",
+		"phpstan/phpstan": "^0.10",
+		"phpunit/phpunit": "^8.3",
 		"wavevision/coding-standard": "dev-master"
+	},
+	"scripts": {
+		"lint": "vendor/bin/parallel-lint -e php src",
+		"phpcs": "vendor/bin/phpcs -sp --standard=codesniffer-ruleset.xml --extensions=php src --ignore=*/data/*",
+		"phpcbf": "vendor/bin/phpcbf -spn --standard=codesniffer-ruleset.xml --extensions=php src --ignore=*/data/*",
+		"cs": "composer phpcbf ; composer phpcs",
+		"phpstan": "vendor/bin/phpstan analyse php --level max",
+		"test": "./vendor/bin/phpunit",
+		"fix": [
+			"@lint",
+			"@cs",
+			"@phpstan",
+			"@test"
+		]
 	}
 }
