@@ -11,14 +11,19 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"Wavevision\\": "src",
-			"Wavevision\\Tests\\": "tests"
+			"Wavevision\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Wavevision\\": "tests"
 		}
 	},
 	"require": {
 		"php": ">=7.2",
 		"ext-iconv": "*",
-		"nette/utils": "^3.0"
+		"nette/utils": "^3.0",
+		"flow/jsonpath": "^0.4.0"
 	},
 	"require-dev": {
 		"jakub-onderka/php-parallel-lint": "^1.0",
@@ -27,11 +32,11 @@
 		"wavevision/coding-standard": "dev-master"
 	},
 	"scripts": {
-		"lint": "vendor/bin/parallel-lint -e php src",
-		"phpcs": "vendor/bin/phpcs -sp --standard=codesniffer-ruleset.xml --extensions=php src --ignore=*/data/*",
-		"phpcbf": "vendor/bin/phpcbf -spn --standard=codesniffer-ruleset.xml --extensions=php src --ignore=*/data/*",
+		"lint": "vendor/bin/parallel-lint -e php --exclude vendor --exclude temp .",
+		"phpcs": "vendor/bin/phpcs -sp --standard=codesniffer-ruleset.xml --extensions=php src tests",
+		"phpcbf": "vendor/bin/phpcbf -spn --standard=codesniffer-ruleset.xml --extensions=php src tests",
 		"cs": "composer phpcbf ; composer phpcs",
-		"phpstan": "vendor/bin/phpstan analyse php --level max",
+		"phpstan": "vendor/bin/phpstan analyse src tests --level max",
 		"test": "./vendor/bin/phpunit",
 		"fix": [
 			"@lint",

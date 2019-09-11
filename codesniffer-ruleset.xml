@@ -4,7 +4,8 @@
 	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
 		<properties>
 			<property name="rootNamespaces" type="array">
-				<element key="src/Utils" value="Wavevision\Utils"/>
+				<element key="src" value="Wavevision"/>
+				<element key="tests" value="Wavevision"/>
 			</property>
 		</properties>
 	</rule>

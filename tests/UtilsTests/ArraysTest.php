@@ -1,13 +1,10 @@
 <?php declare (strict_types = 1);
 
-namespace Wavevision\Tests\Utils;
+namespace Wavevision\UtilsTests;
 
 use PHPUnit\Framework\TestCase;
 use Wavevision\Utils\Arrays;
 
-/**
- * @covers \Wavevision\Utils\Arrays
- */
 class ArraysTest extends TestCase
 {
 

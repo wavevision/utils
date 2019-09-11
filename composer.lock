@@ -4,8 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e814b7dd1710dcc12f4cccd718032b2",
+    "content-hash": "48e7ae6d48a8c8654f8deb090cc87fe5",
     "packages": [
+        {
+            "name": "flow/jsonpath",
+            "version": "0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FlowCommunications/JSONPath.git",
+                "reference": "f0222818d5c938e4ab668ab2e2c079bd51a27112"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FlowCommunications/JSONPath/zipball/f0222818d5c938e4ab668ab2e2c079bd51a27112",
+                "reference": "f0222818d5c938e4ab668ab2e2c079bd51a27112",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "peekmo/jsonpath": "dev-master",
+                "phpunit/phpunit": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Flow\\JSONPath": "src/",
+                    "Flow\\JSONPath\\Test": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Frank",
+                    "email": "stephen@flowsa.com"
+                }
+            ],
+            "description": "JSONPath implementation for parsing, searching and flattening arrays",
+            "time": "2018-03-04T16:39:47+00:00"
+        },
         {
             "name": "nette/utils",
             "version": "v3.0.1",
@@ -2856,12 +2897,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wavevision/coding-standard.git",
-                "reference": "5d81258aa1388954bacf69e23bffd6e22d51b4cc"
+                "reference": "d6dd498c1a4e82cb7f056064f3d5140039875ea3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wavevision/coding-standard/zipball/5d81258aa1388954bacf69e23bffd6e22d51b4cc",
-                "reference": "5d81258aa1388954bacf69e23bffd6e22d51b4cc",
+                "url": "https://api.github.com/repos/wavevision/coding-standard/zipball/d6dd498c1a4e82cb7f056064f3d5140039875ea3",
+                "reference": "d6dd498c1a4e82cb7f056064f3d5140039875ea3",
                 "shasum": ""
             },
             "require": {
@@ -2872,6 +2913,11 @@
                 "jakub-onderka/php-parallel-lint": "^1.0",
                 "phpstan/phpstan": "^0.10",
                 "phpunit/phpunit": "^8.3"
+            },
+            "suggest": {
+                "jakub-onderka/php-parallel-lint": "This tool check syntax of PHP files faster than serial check with fancier output.",
+                "phpstan/phpstan": "PHP Static Analysis Tool - discover bugs in your code without running it!",
+                "sebastianbergmann/phpunit": "The PHP Unit Testing framework."
             },
             "type": "library",
             "autoload": {
@@ -2899,7 +2945,7 @@
             ],
             "description": "The Wavevision PHP coding standard.",
             "homepage": "https://github.com/wavevision/coding-standard",
-            "time": "2019-09-10T14:12:13+00:00"
+            "time": "2019-09-11T09:36:18+00:00"
         },
         {
             "name": "webmozart/assert",

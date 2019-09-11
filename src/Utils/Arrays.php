@@ -2,12 +2,28 @@
 
 namespace Wavevision\Utils;
 
+use Flow\JSONPath\JSONPath;
+use Flow\JSONPath\JSONPathException;
 use Nette\InvalidArgumentException;
+use Nette\InvalidStateException;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Arrays as NetteArrays;
 
 class Arrays extends NetteArrays
 {
+
+	/**
+	 * @param array<mixed> $a1
+	 * @param array<mixed> $a2
+	 * @return array<mixed>
+	 */
+	public static function appendAll(array $a1, array $a2): array
+	{
+		foreach ($a2 as $value) {
+			$a1[] = $value;
+		}
+		return $a1;
+	}
 
 	/**
 	 * @param array<int|string> $keys
@@ -45,6 +61,22 @@ class Arrays extends NetteArrays
 	}
 
 	/**
+	 * @param iterable<mixed> $values
+	 * @return int
+	 */
+	public static function countFilled(iterable $values): int
+	{
+		$count = 0;
+		foreach ($values as $value) {
+			if ($value === null || $value === '') {
+				continue;
+			}
+			$count++;
+		}
+		return $count;
+	}
+
+	/**
 	 * @param array<mixed> $a1
 	 * @param array<mixed> $a2
 	 * @param bool $showMissingKeys
@@ -70,6 +102,15 @@ class Arrays extends NetteArrays
 			}
 		}
 		return $diff;
+	}
+
+	/**
+	 * @param iterable<object> $collection
+	 * @return array<int|string>
+	 */
+	public static function extractObjectIds(iterable $collection): array
+	{
+		return self::extractObjectValues($collection, 'id');
 	}
 
 	/**
@@ -100,6 +141,28 @@ class Arrays extends NetteArrays
 			},
 			$array
 		);
+	}
+
+	/**
+	 * @param iterable<mixed> $collection
+	 * @return mixed|null
+	 */
+	public static function firstItem(iterable $collection)
+	{
+		return $collection[self::firstKey($collection)] ?? null;
+	}
+
+	/**
+	 * @param iterable<mixed> $collection
+	 * @return int|string|null
+	 */
+	public static function firstKey(iterable $collection)
+	{
+		$key = null;
+		foreach (self::iterableKeys($collection) as $key) {
+			break;
+		}
+		return $key;
 	}
 
 	/**
@@ -139,19 +202,19 @@ class Arrays extends NetteArrays
 	}
 
 	/**
-	 * @param array<mixed> $data
+	 * @param array<mixed> $array
 	 * @param string ...$keyParts
 	 * @return bool
 	 */
-	public static function hasNestedKey(array $data, string ...$keyParts): bool
+	public static function hasNestedKey(array $array, string ...$keyParts): bool
 	{
 		if (count($keyParts) === 0) {
 			throw new InvalidArgumentException('Argument "keyParts" should have at least one element.');
 		}
 		foreach ($keyParts as $keyPart) {
-			if (key_exists($keyPart, $data)) {
-				$data = $data[$keyPart];
-				if (!is_array($data)) {
+			if (key_exists($keyPart, $array)) {
+				$array = $array[$keyPart];
+				if (!is_array($array)) {
 					break;
 				}
 			} else {
@@ -195,12 +258,79 @@ class Arrays extends NetteArrays
 	}
 
 	/**
-	 * @param iterable<object> $collection
+	 * @param array<mixed> $array
+	 * @param int|string $index
+	 * @return array<int|string, mixed>
+	 */
+	public static function indexByValue(array $array, $index): array
+	{
+		return self::mapWithKeys(
+			$array,
+			function ($key, $value) use ($index): array {
+				if (is_array($value)) {
+					if (isset($value[$index]) && is_int($key)) {
+						$key = $value[$index];
+					}
+					if (self::isArrayOfArrays($value)) {
+						$value = self::indexByValue($value, $index);
+					}
+				}
+				return [$key, $value];
+			}
+		);
+	}
+
+	/**
+	 * @param mixed $array
+	 * @return bool
+	 */
+	public static function isArrayOfArrays($array): bool
+	{
+		if (!is_array($array)) {
+			return false;
+		}
+		foreach ($array as $value) {
+			if (!is_array($value)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @param iterable<mixed> $collection
+	 * @return bool
+	 */
+	public static function isEmpty(iterable $collection): bool
+	{
+		return self::firstKey($collection) === null;
+	}
+
+	/**
+	 * @param iterable<mixed> $collection
 	 * @return array<int|string>
 	 */
-	public static function extractObjectsId(iterable $collection): array
+	public static function iterableKeys(iterable $collection): array
 	{
-		return self::extractObjectValues($collection, 'id');
+		return array_keys(
+			self::mapWithKeys(
+				$collection,
+				function ($key): array {
+					return [$key, null];
+				}
+			)
+		);
+	}
+
+	/**
+	 * @param array<mixed> $array
+	 * @param string $expression
+	 * @return mixed
+	 * @throws JSONPathException
+	 */
+	public static function jsonPath(array $array, string $expression)
+	{
+		return (new JSONPath($array))->find($expression)->data();
 	}
 
 	/**
@@ -210,11 +340,89 @@ class Arrays extends NetteArrays
 	 */
 	public static function mapCollection(iterable $collection, callable $callback): array
 	{
-		$values = [];
+		$result = [];
 		foreach ($collection as $item) {
-			$values[] = $callback($item);
+			$result[] = $callback($item);
 		}
-		return $values;
+		return $result;
+	}
+
+	/**
+	 * @param iterable<mixed> $collection
+	 * @param callable $callback
+	 * @return array<mixed>
+	 */
+	public static function mapIterable(iterable $collection, callable $callback): array
+	{
+		$result = [];
+		foreach ($collection as $key => $item) {
+			$result[$key] = $callback($item, $key, $collection);
+		}
+		return $result;
+	}
+
+	/**
+	 * @param callable $callback
+	 * @param iterable<mixed> $collection
+	 * @return array<int|string, mixed>
+	 */
+	public static function mapKeysFromValues(iterable $collection, callable $callback): array
+	{
+		return self::mapKeys($collection, $callback);
+	}
+
+	/**
+	 * @param callable $callback
+	 * @param array<mixed> $array
+	 * @return array<mixed>
+	 */
+	public static function mapValues(array $array, callable $callback): array
+	{
+		return array_values(array_map($callback, $array));
+	}
+
+	/**
+	 * @param callable $callback
+	 * @param iterable<mixed> $collection
+	 * @return array<int|string, mixed>
+	 */
+	public static function mapWithKeys(iterable $collection, callable $callback): array
+	{
+		return self::mapKeys($collection, $callback, true);
+	}
+
+	/**
+	 * @param array<mixed> ...$arrays
+	 * @return array<mixed>
+	 */
+	public static function mergeAllRecursive(
+		array ...$arrays
+	): array {
+		return array_reduce(
+			$arrays,
+			[self::class, 'mergeRecursiveDistinct'],
+			[]
+		);
+	}
+
+	/**
+	 * @param array<mixed> $a1
+	 * @param array<mixed> $a2
+	 * @return array<mixed>
+	 */
+	public static function mergeRecursiveDistinct(
+		array &$a1,
+		array &$a2
+	): array {
+		$result = $a1;
+		foreach ($a2 as $key => &$value) {
+			if (is_array($value) && isset($result[$key]) && is_array($result[$key])) {
+				$result[$key] = self::mergeRecursiveDistinct($result[$key], $value);
+			} else {
+				$result[$key] = $value;
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -260,12 +468,15 @@ class Arrays extends NetteArrays
 	 * @param callable $replacer
 	 * @return array<mixed>
 	 */
-	public static function replaceByPrefix(array $array, string $prefix, callable $replacer): array
-	{
+	public static function replaceByPrefix(
+		array $array,
+		string $prefix,
+		callable $replacer
+	): array {
 		return self::replaceByPrefixWithKeys(
 			$array,
 			$prefix,
-			function ($key, $value) use ($prefix, $replacer) {
+			function ($key, $value) use ($prefix, $replacer): array {
 				return [
 					str_replace($prefix, '', $key),
 					$replacer($value),
@@ -280,12 +491,15 @@ class Arrays extends NetteArrays
 	 * @param callable $replacer
 	 * @return array<mixed>
 	 */
-	public static function replaceByPrefixWithKeys(array $array, string $prefix, callable $replacer): array
-	{
+	public static function replaceByPrefixWithKeys(
+		array $array,
+		string $prefix,
+		callable $replacer
+	): array {
 		return self::replaceByCallbackWithKeys(
 			$array,
 			$replacer,
-			function ($k) use ($prefix) {
+			function ($k) use ($prefix): bool {
 				return strpos($k, $prefix) === 0;
 			}
 		);
@@ -295,8 +509,9 @@ class Arrays extends NetteArrays
 	 * @param array<mixed> $array
 	 * @return array<mixed>
 	 */
-	public static function sortedValues(array $array): array
-	{
+	public static function sortedValues(
+		array $array
+	): array {
 		$values = array_values($array);
 		sort($values);
 		return $values;
@@ -307,8 +522,10 @@ class Arrays extends NetteArrays
 	 * @param callable $compare
 	 * @return array<mixed>
 	 */
-	public static function splitBy(array $array, callable $compare): array
-	{
+	public static function splitBy(
+		array $array,
+		callable $compare
+	): array {
 		$result = [];
 		foreach ($array as $value) {
 			$key = $compare($value);
@@ -322,8 +539,36 @@ class Arrays extends NetteArrays
 	 * @param array<mixed> $a2
 	 * @return array<mixed>
 	 */
-	public static function unionUniqueValues(array $a1, array $a2): array
-	{
+	public static function unionUniqueValues(
+		array $a1,
+		array $a2
+	): array {
 		return array_unique(array_merge(array_values($a1), array_values($a2)));
+	}
+
+	/**
+	 * @param iterable<mixed> $collection
+	 * @param callable $callback
+	 * @param bool $keys
+	 * @return array<int|string, mixed>
+	 */
+	private static function mapKeys(
+		iterable $collection,
+		callable $callback,
+		bool $keys = false
+	): array {
+		$result = [];
+		foreach ($collection as $key => $item) {
+			$kv = $keys ? $callback($key, $item) : $callback($item);
+			if ($kv === null) {
+				continue;
+			}
+			[$key, $item] = $kv;
+			if (isset($result[$key])) {
+				throw new InvalidStateException("Unable to rewrite key '$key'. Check if returned keys are unique.");
+			}
+			$result[$key] = $item;
+		}
+		return $result;
 	}
 }

@@ -18,10 +18,10 @@ class Json
 	/**
 	 * @param mixed $value
 	 * @param string $indent
-	 * @return string
+	 * @return string|null
 	 * @throws JsonException
 	 */
-	public static function encodePretty($value, string $indent = self::INDENT_PHP): string
+	public static function encodePretty($value, string $indent = self::INDENT_PHP): ?string
 	{
 		return preg_replace_callback(
 			'/^ +/m',

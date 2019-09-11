@@ -11,7 +11,6 @@ class Strings extends NetteStrings
 
 	public static function autoUtf(string $s): string
 	{
-		set_error_handler([self::class, 'handleAutoUtfError']);
 		if (preg_match(Encoding::UTF_PATTERN, $s)) {
 			$output = $s;
 		} elseif (preg_match(Encoding::WIN_PATTERN, $s)) {
@@ -19,13 +18,15 @@ class Strings extends NetteStrings
 		} else {
 			$output = iconv(Encoding::LATIN, Encoding::UTF, $s);
 		}
-		restore_error_handler();
+		if ($output === false) {
+			throw new IOException('Unsupported encoding!');
+		}
 		return $output;
 	}
 
 	public static function camelCaseToDashCase(string $s): string
 	{
-		return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $s));
+		return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $s) ?: $s);
 	}
 
 	/**
@@ -49,7 +50,7 @@ class Strings extends NetteStrings
 	public static function convertBytes(string $s): int
 	{
 		$matches = self::match(str_replace(' ', '', $s), '/([0-9]+)([a-z]{0,2})/i');
-		if (count($matches) !== 3) {
+		if ($matches === null || count($matches) !== 3) {
 			throw new InvalidArgumentException("Invalid size $s.");
 		}
 		[, $value, $unit] = $matches;
@@ -75,13 +76,13 @@ class Strings extends NetteStrings
 
 	public static function getClassNameFromNamespace(string $namespace, bool $camelCase = false): string
 	{
-		$className = substr(strrchr($namespace, '\\'), 1);
+		$className = substr(strrchr($namespace, '\\') ?: $namespace, 1);
 		return $camelCase ? lcfirst($className) : $className;
 	}
 
 	public static function removeBlankLines(string $s): string
 	{
-		return preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $s);
+		return preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $s) ?: $s;
 	}
 
 	public static function removeEmoji(string $s): string
@@ -94,22 +95,29 @@ class Strings extends NetteStrings
 
 	public static function trimBlankLines(string $s): string
 	{
-		return preg_replace('\A[ \t]*\r?\n|\r?\n[ \t]*\Z', '', $s);
+		return preg_replace('\A[ \t]*\r?\n|\r?\n[ \t]*\Z', '', $s) ?: $s;
 	}
 
 	public static function utf2win(string $s): string
 	{
-		return strtr(preg_replace(Encoding::UTF_2_WIN_PATTERN, '', $s), Encoding::UTF_2_WIN_TABLE);
+		$output = preg_replace(Encoding::UTF_2_WIN_PATTERN, '', $s);
+		if ($output === null) {
+			throw self::createEncodingIOException(Encoding::UTF, Encoding::WINDOWS_1250);
+		}
+		return strtr($output, Encoding::UTF_2_WIN_TABLE);
 	}
 
 	public static function win2utf(string $s): string
 	{
-		return iconv(Encoding::WINDOWS_1250, Encoding::UTF, $s);
+		$output = iconv(Encoding::WINDOWS_1250, Encoding::UTF, $s);
+		if ($output === false) {
+			throw self::createEncodingIOException(Encoding::WINDOWS_1250, Encoding::UTF);
+		}
+		return $output;
 	}
 
-	private static function handleAutoUtfError(): void
+	private static function createEncodingIOException(string $source, string $target): IOException
 	{
-		restore_error_handler();
-		throw new IOException('Unsupported encoding!');
+		return new IOException(sprintf('Could not convert %s to %s encoding!', $source, $target));
 	}
 }
