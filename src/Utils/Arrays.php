@@ -53,11 +53,11 @@ class Arrays extends NetteArrays
 	 */
 	public static function copySelected(array $source, ...$keys): array
 	{
-		$copied = [];
+		$result = [];
 		foreach ($keys as $key) {
-			$copied[$key] = $source[$key];
+			$result[$key] = $source[$key];
 		}
-		return $copied;
+		return $result;
 	}
 
 	/**
@@ -66,42 +66,42 @@ class Arrays extends NetteArrays
 	 */
 	public static function countFilled(iterable $values): int
 	{
-		$count = 0;
+		$result = 0;
 		foreach ($values as $value) {
 			if ($value === null || $value === '') {
 				continue;
 			}
-			$count++;
+			$result++;
 		}
-		return $count;
+		return $result;
 	}
 
 	/**
 	 * @param array<mixed> $a1
 	 * @param array<mixed> $a2
-	 * @param bool $showMissingKeys
+	 * @param bool $includeMissingKeys
 	 * @return array<mixed>
 	 */
-	public static function diff(array $a1, array $a2, bool $showMissingKeys = true): array
+	public static function diff(array $a1, array $a2, bool $includeMissingKeys = true): array
 	{
-		$diff = [];
+		$result = [];
 		foreach ($a1 as $key => $value) {
 			if (array_key_exists($key, $a2)) {
-				if (is_array($value)) {
-					$recursiveDiff = self::diff($value, $a2[$key], $showMissingKeys);
+				if (is_array($value) && is_array($a2[$key])) {
+					$recursiveDiff = self::diff($value, $a2[$key], $includeMissingKeys);
 					if (count($recursiveDiff)) {
-						$diff[$key] = $recursiveDiff;
+						$result[$key] = $recursiveDiff;
 					}
 				} else {
-					if ($value && trim($value) !== trim($a2[$key])) {
-						$diff[$key] = $value;
+					if ($value && !self::sameValues($value, $a2[$key])) {
+						$result[$key] = $value;
 					}
 				}
-			} elseif ($showMissingKeys) {
-				$diff[$key] = $value;
+			} elseif ($includeMissingKeys) {
+				$result[$key] = $value;
 			}
 		}
-		return $diff;
+		return $result;
 	}
 
 	/**
@@ -123,7 +123,7 @@ class Arrays extends NetteArrays
 		return self::mapCollection(
 			$collection,
 			function (object $item) use ($property) {
-				return $item->$property;
+				return $item->$property ?? null;
 			}
 		);
 	}
@@ -137,7 +137,7 @@ class Arrays extends NetteArrays
 	{
 		return array_map(
 			function (array $item) use ($key) {
-				return $item[$key];
+				return $item[$key] ?? null;
 			},
 			$array
 		);
@@ -395,9 +395,8 @@ class Arrays extends NetteArrays
 	 * @param array<mixed> ...$arrays
 	 * @return array<mixed>
 	 */
-	public static function mergeAllRecursive(
-		array ...$arrays
-	): array {
+	public static function mergeAllRecursive(array ...$arrays): array
+	{
 		return array_reduce(
 			$arrays,
 			[self::class, 'mergeRecursiveDistinct'],
@@ -570,5 +569,24 @@ class Arrays extends NetteArrays
 			$result[$key] = $item;
 		}
 		return $result;
+	}
+
+	/**
+	 * @param mixed $v1
+	 * @param mixed $v2
+	 * @return bool
+	 */
+	private static function sameValues($v1, $v2): bool
+	{
+		return self::trimValue($v1) === self::trimValue($v2);
+	}
+
+	/**
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	private static function trimValue($value)
+	{
+		return is_string($value) ? trim($value) : $value;
 	}
 }
