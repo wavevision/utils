@@ -7,6 +7,14 @@
 		{
 			"name": "Wavevision s.r.o.",
 			"email": "info@wavevision.com"
+		},
+		{
+			"name": "Jakub Filla",
+			"email": "jakub.filla@wavevision.com"
+		},
+		{
+			"name": "Vít Rozsíval",
+			"email": "vit@wavevision.com"
 		}
 	],
 	"autoload": {
