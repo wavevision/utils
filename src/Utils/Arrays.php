@@ -129,7 +129,7 @@ class Arrays extends NetteArrays
 	}
 
 	/**
-	 * @param array<mixed> $array
+	 * @param array<array<mixed>> $array
 	 * @param int|string $key
 	 * @return array<mixed>
 	 */
@@ -235,7 +235,7 @@ class Arrays extends NetteArrays
 	}
 
 	/**
-	 * @param array<mixed> $array
+	 * @param array<string> $array
 	 * @param string $separator
 	 * @param string|null $last
 	 * @return string
@@ -289,12 +289,12 @@ class Arrays extends NetteArrays
 		if (!is_array($array)) {
 			return false;
 		}
-		foreach ($array as $value) {
-			if (!is_array($value)) {
-				return false;
+		foreach ($array as $item) {
+			if (is_array($item)) {
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	/**
@@ -323,22 +323,22 @@ class Arrays extends NetteArrays
 	}
 
 	/**
-	 * @param array<mixed> $array
+	 * @param array<mixed> $data
 	 * @param string $expression
 	 * @return mixed
 	 * @throws JSONPathException
 	 */
-	public static function jsonPath(array $array, string $expression)
+	public static function jsonPath(array $data, string $expression)
 	{
-		return (new JSONPath($array))->find($expression)->data();
+		return (new JSONPath($data))->find($expression)->data();
 	}
 
 	/**
-	 * @param iterable<mixed> $collection
+	 * @param mixed $collection
 	 * @param callable $callback
 	 * @return array<mixed>
 	 */
-	public static function mapCollection(iterable $collection, callable $callback): array
+	public static function mapCollection($collection, callable $callback): array
 	{
 		$result = [];
 		foreach ($collection as $item) {
@@ -551,22 +551,19 @@ class Arrays extends NetteArrays
 	 * @param bool $keys
 	 * @return array<int|string, mixed>
 	 */
-	private static function mapKeys(
-		iterable $collection,
-		callable $callback,
-		bool $keys = false
-	): array {
+	private static function mapKeys(iterable $collection, callable $callback, bool $keys = false): array
+	{
 		$result = [];
 		foreach ($collection as $key => $item) {
 			$kv = $keys ? $callback($key, $item) : $callback($item);
 			if ($kv === null) {
 				continue;
 			}
-			[$key, $item] = $kv;
+			[$key, $value] = $kv;
 			if (isset($result[$key])) {
 				throw new InvalidStateException("Unable to rewrite key '$key'. Check if returned keys are unique.");
 			}
-			$result[$key] = $item;
+			$result[$key] = $value;
 		}
 		return $result;
 	}
