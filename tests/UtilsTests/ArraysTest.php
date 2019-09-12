@@ -60,9 +60,14 @@ class ArraysTest extends TestCase
 
 	public function testExtractValuesFromObject(): void
 	{
-		$object = new \stdClass();
-		$object->something = 'some-value';
-		$this->assertEquals(['some-value'], Arrays::extractObjectValues([$object], 'something'));
+		$o1 = new \stdClass();
+		$o1->something = 'someValue';
+		$o2 = $this->getMockBuilder(\stdClass::class)
+			->addMethods(['getSomething'])
+			->getMock();
+		$o2->method('getSomething')
+			->willReturn('otherValue');
+		$this->assertEquals(['someValue', 'otherValue'], Arrays::extractObjectValues([$o1, $o2], 'something'));
 	}
 
 	public function testExtractValues(): void

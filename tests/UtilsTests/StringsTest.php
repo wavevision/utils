@@ -8,6 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Wavevision\Utils\Encoding;
 use Wavevision\Utils\Strings;
 
+/**
+ * @covers \Wavevision\Utils\Strings
+ */
 class StringsTest extends TestCase
 {
 

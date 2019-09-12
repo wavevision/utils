@@ -22,6 +22,32 @@ class ObjectsTest extends TestCase
 		$this->assertEquals(null, Objects::getIfNotNull(null, 'yoMama'));
 	}
 
+	public function testHasGetter(): void
+	{
+		$this->assertTrue(
+			Objects::hasGetter(
+				$this->getMockBuilder(\stdClass::class)
+					->addMethods(['getSomething'])
+					->getMock(),
+				'something'
+			)
+		);
+		$this->assertFalse(Objects::hasGetter(new \stdClass(), 'something'));
+	}
+
+	public function testHasSetter(): void
+	{
+		$this->assertTrue(
+			Objects::hasSetter(
+				$this->getMockBuilder(\stdClass::class)
+					->addMethods(['setSomething'])
+					->getMock(),
+				'something'
+			)
+		);
+		$this->assertFalse(Objects::hasSetter(new \stdClass(), 'something'));
+	}
+
 	public function testSet(): void
 	{
 		$mock = $this->getMockBuilder(\stdClass::class)

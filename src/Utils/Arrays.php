@@ -123,6 +123,9 @@ class Arrays extends NetteArrays
 		return self::mapCollection(
 			$collection,
 			function (object $item) use ($property) {
+				if (Objects::hasGetter($item, $property)) {
+					return Objects::get($item, $property);
+				}
 				return $item->$property ?? null;
 			}
 		);

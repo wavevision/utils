@@ -5,6 +5,9 @@ namespace Wavevision\UtilsTests;
 use PHPUnit\Framework\TestCase;
 use Wavevision\Utils\Json;
 
+/**
+ * @covers \Wavevision\Utils\Json
+ */
 class JsonTest extends TestCase
 {
 
