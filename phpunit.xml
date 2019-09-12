@@ -14,10 +14,9 @@
 >
     <testsuites>
         <testsuite name="Wavevision Utils">
-            <directory suffix="Test.php">./tests/</directory>
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
-
     <logging>
         <log
                 type="coverage-html"
@@ -33,7 +32,7 @@
     </logging>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src/</directory>
+            <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
 </phpunit>
