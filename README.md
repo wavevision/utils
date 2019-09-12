@@ -1,7 +1,7 @@
 # Wavevision Utils
 
 [![Build Status](https://travis-ci.org/wavevision/utils.svg?branch=master)](https://travis-ci.org/wavevision/utils)
-[![Coverage Status](https://coveralls.io/repos/github/wavevision/utils/badge.svg?branch=%28HEAD+detached+at+c32fca9%29)](https://coveralls.io/github/wavevision/utils?branch=%28HEAD+detached+at+c32fca9%29)
+[![Coverage Status](https://coveralls.io/repos/github/wavevision/utils/badge.svg?branch=master)](https://coveralls.io/github/wavevision/utils?branch=master)
 [![PHPStan](https://img.shields.io/badge/style-level%20max-brightgreen.svg?label=phpstan)](https://github.com/phpstan/phpstan)
 
 Set of useful PHP utilities and helpers extending [nette/utils](https://github.com/nette/utils).
