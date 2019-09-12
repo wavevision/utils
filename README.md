@@ -18,7 +18,7 @@ composer require wavevision/utils
 
 The package contains useful classes for:
 
-- [Arrays](./src/Utils/Arrays.php) – array helpers (manipulate, sort, search etc.)
+- [Arrays](./src/Utils/Arrays.php) – array helpers (manipulate, sort, extract etc.)
 - [Json](./src/Utils/Json.php) – JSON pretty encoder with PHP and JavaScript indents
 - [Objects](./src/Utils/Objects.php) – dynamic get / set accessors
 - [Strings](./src/Utils/Strings.php) – string helpers (encode, transform etc.)
