@@ -14,12 +14,9 @@ class Strings extends NetteStrings
 		if (preg_match(Encoding::UTF_PATTERN, $s)) {
 			$output = $s;
 		} elseif (preg_match(Encoding::WIN_PATTERN, $s)) {
-			$output = iconv(Encoding::WINDOWS_1250, Encoding::UTF, $s);
+			$output = self::convertEncoding($s, Encoding::WINDOWS_1250, Encoding::UTF);
 		} else {
-			$output = iconv(Encoding::LATIN, Encoding::UTF, $s);
-		}
-		if ($output === false) {
-			throw new IOException('Unsupported encoding!');
+			$output = self::convertEncoding($s, Encoding::LATIN, Encoding::UTF);
 		}
 		return $output;
 	}
@@ -27,16 +24,6 @@ class Strings extends NetteStrings
 	public static function camelCaseToDashCase(string $s): string
 	{
 		return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $s) ?: $s);
-	}
-
-	/**
-	 * @param array<string> $s
-	 * @param string $glue
-	 * @return string
-	 */
-	public static function concat(array $s, string $glue = ''): string
-	{
-		return implode($glue, $s);
 	}
 
 	public static function contains(string $haystack, string $needle, bool $caseSensitive = true): bool
@@ -69,6 +56,15 @@ class Strings extends NetteStrings
 		}
 	}
 
+	public static function convertEncoding(string $string, string $sourceEncoding, string $targetEncoding): string
+	{
+		$converted = @iconv($sourceEncoding, $targetEncoding, $string);
+		if ($converted === false) {
+			throw self::createEncodingIOException($sourceEncoding, $targetEncoding);
+		}
+		return $converted;
+	}
+
 	public static function dashCaseToCamelCase(string $string): string
 	{
 		return lcfirst(str_replace('-', '', ucwords($string, '-')));
@@ -93,11 +89,6 @@ class Strings extends NetteStrings
 		return $s;
 	}
 
-	public static function trimBlankLines(string $s): string
-	{
-		return preg_replace('\A[ \t]*\r?\n|\r?\n[ \t]*\Z', '', $s) ?: $s;
-	}
-
 	public static function utf2win(string $s): string
 	{
 		$output = preg_replace(Encoding::UTF_2_WIN_PATTERN, '', $s);
@@ -109,11 +100,7 @@ class Strings extends NetteStrings
 
 	public static function win2utf(string $s): string
 	{
-		$output = iconv(Encoding::WINDOWS_1250, Encoding::UTF, $s);
-		if ($output === false) {
-			throw self::createEncodingIOException(Encoding::WINDOWS_1250, Encoding::UTF);
-		}
-		return $output;
+		return self::convertEncoding($s, Encoding::WINDOWS_1250, Encoding::UTF);
 	}
 
 	private static function createEncodingIOException(string $source, string $target): IOException
