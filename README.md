@@ -26,3 +26,4 @@ The package contains useful classes for:
 - [Json](./src/Utils/Json.php) – JSON pretty encoder with PHP and JavaScript indents
 - [Objects](./src/Utils/Objects.php) – dynamic get / set accessors
 - [Strings](./src/Utils/Strings.php) – string helpers (encode, transform etc.)
+- [Tokenizer](./src/Utils/Tokenizer.php) – get structure from file (e.g. PHP class)

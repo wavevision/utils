@@ -38,7 +38,8 @@
 		"phpstan/phpstan": "^0.10",
 		"phpunit/phpunit": "^8.3",
 		"wavevision/coding-standard": "dev-master",
-		"php-mock/php-mock-mockery": "^1.3"
+		"php-mock/php-mock-mockery": "^1.3",
+		"mikey179/vfsstream": "^1.6"
 	},
 	"scripts": {
 		"lint": "vendor/bin/parallel-lint -e php --exclude vendor --exclude temp .",
