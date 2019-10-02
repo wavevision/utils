@@ -51,13 +51,19 @@ class Finder extends NetteFinder
 		return $this;
 	}
 
-	public function sortByName(string $case = self::CASE_INSENSITIVE): self
+	public function sortByName(string $order = self::ORDER_ASC, string $case = self::CASE_INSENSITIVE): self
 	{
 		$fn = $case === self::CASE_INSENSITIVE ? 'strcasecmp' : 'strcmp';
-		$this->sort = function (SplFileInfo $f1, SplFileInfo $f2) use ($fn): int {
+		$this->sort = function (SplFileInfo $f1, SplFileInfo $f2) use ($fn, $order): int {
+			if ($order === self::ORDER_ASC) {
+				return $fn(
+					Strings::removeAccentedChars($f1->getFilename()),
+					Strings::removeAccentedChars($f2->getFilename())
+				);
+			}
 			return $fn(
-				Strings::removeAccentedChars($f1->getFilename()),
-				Strings::removeAccentedChars($f2->getFilename())
+				Strings::removeAccentedChars($f2->getFilename()),
+				Strings::removeAccentedChars($f1->getFilename())
 			);
 		};
 		return $this;

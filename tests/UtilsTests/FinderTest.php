@@ -46,11 +46,14 @@ class FinderTest extends TestCase
 			$files[] = $file->getFilename();
 		}
 		/** @var \SplFileInfo $file */
-		foreach ($this->getFinder(['ahoj', 'Test', 'ČekDis'])->sortByName(Finder::CASE_SENSITIVE) as $file) {
+		foreach ($this->getFinder(['ahoj', 'Test', 'ČekDis'])->sortByName(
+			Finder::ORDER_DESC,
+			Finder::CASE_SENSITIVE
+		) as $file) {
 			$files[] = $file->getFilename();
 		}
 		$this->assertEquals(
-			['anotherFile.txt', 'čeština.txt', 'some-file.txt', 'ČekDis.txt', 'Test.txt', 'ahoj.txt'],
+			['anotherFile.txt', 'čeština.txt', 'some-file.txt', 'ahoj.txt', 'Test.txt', 'ČekDis.txt'],
 			$files
 		);
 	}
