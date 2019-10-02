@@ -10,9 +10,9 @@ use SplFileInfo;
 class Finder extends NetteFinder
 {
 
-	public const CASE_INSENSITIVE = 'CI';
+	public const CASE_INSENSITIVE = 'CASE_INSENSITIVE';
 
-	public const CASE_SENSITIVE = 'CS';
+	public const CASE_SENSITIVE = 'CASE_SENSITIVE';
 
 	public const ORDER_ASC = 'ASC';
 
