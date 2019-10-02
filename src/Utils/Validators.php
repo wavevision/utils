@@ -14,10 +14,7 @@ class Validators extends NetteValidators
 
 	public static function isCzechBusinessNumber(string $businessNumber): bool
 	{
-		$ic = preg_replace('#\s+#', '', $businessNumber);
-		if ($ic === null) {
-			return false;
-		}
+		$ic = Strings::replace($businessNumber, '#\s+#', '');
 		if (!preg_match('#^\d{8}$#', $ic)) {
 			return false;
 		}
