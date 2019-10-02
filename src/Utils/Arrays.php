@@ -564,7 +564,7 @@ class Arrays extends NetteArrays
 			}
 			[$key, $value] = $kv;
 			if (isset($result[$key])) {
-				throw new InvalidStateException("Unable to rewrite key '$key'. Check if returned keys are unique.");
+				throw new InvalidStateException("Unable to rewrite key '$key'! Check if returned keys are unique.");
 			}
 			$result[$key] = $value;
 		}

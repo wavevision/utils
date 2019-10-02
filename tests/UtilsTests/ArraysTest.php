@@ -307,7 +307,7 @@ class ArraysTest extends TestCase
 			)
 		);
 		$this->expectException(InvalidStateException::class);
-		$this->expectExceptionMessage("Unable to rewrite key 'c'. Check if returned keys are unique.");
+		$this->expectExceptionMessage("Unable to rewrite key 'c'! Check if returned keys are unique.");
 		Arrays::mapWithKeys(
 			[
 				1,

@@ -38,7 +38,7 @@ class Strings extends NetteStrings
 	{
 		$matches = self::match(str_replace(' ', '', $s), '/([0-9]+)([a-z]{0,2})/i');
 		if ($matches === null || count($matches) !== 3) {
-			throw new InvalidArgumentException("Invalid size $s.");
+			throw new InvalidArgumentException("Invalid size '$s'!");
 		}
 		[, $value, $unit] = $matches;
 		if (strlen($unit) === 2) {
@@ -124,6 +124,6 @@ class Strings extends NetteStrings
 
 	private static function createEncodingIOException(string $source, string $target): IOException
 	{
-		return new IOException(sprintf('Could not convert %s to %s encoding!', $source, $target));
+		return new IOException("Could not convert '$source' to '$target' encoding!");
 	}
 }
