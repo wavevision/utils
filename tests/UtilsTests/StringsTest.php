@@ -87,6 +87,11 @@ class StringsTest extends TestCase
 		$this->assertEquals('text', Strings::removeEmoji('😀🏯text🗺🎵'));
 	}
 
+	public function testRemoveWhitespace(): void
+	{
+		$this->assertEquals('abcdef', Strings::removeWhitespace('abc   d e   f'));
+	}
+
 	public function testUtf2Win(): void
 	{
 		$this->expectException(IOException::class);

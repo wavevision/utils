@@ -15,6 +15,7 @@ class ValidatorsTest extends TestCase
 	{
 		$this->assertFalse(Validators::isCzechBusinessNumber('123'));
 		$this->assertTrue(Validators::isCzechBusinessNumber('87356538'));
+		$this->assertTrue(Validators::isCzechBusinessNumber('cz87356538'));
 	}
 
 	public function testIsCzechPersonalNumber(): void

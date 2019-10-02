@@ -85,7 +85,7 @@ class Strings extends NetteStrings
 	{
 		return self::replace(
 			self::convertEncoding(self::autoUtf($s), Encoding::UTF, 'ascii//TRANSLIT'),
-			'#[^a-zA-z]#',
+			'/[^a-zA-z]/',
 			''
 		);
 	}
@@ -101,6 +101,11 @@ class Strings extends NetteStrings
 			$s = self::replace($s, $pattern, '');
 		}
 		return $s;
+	}
+
+	public static function removeWhitespace(string $s): string
+	{
+		return self::replace($s, '/\s+/', '');
 	}
 
 	public static function utf2win(string $s): string

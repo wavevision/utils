@@ -7,15 +7,20 @@ use Nette\Utils\Validators as NetteValidators;
 class Validators extends NetteValidators
 {
 
-	private const CZECH_PHONE_PREFIXES = [
+	private const BUSINESS_PREFIXES = ['CZ', 'SK'];
+
+	private const PHONE_PREFIXES = [
 		'\+420',
 		'\+421',
 	];
 
 	public static function isCzechBusinessNumber(string $businessNumber): bool
 	{
-		$ic = Strings::replace($businessNumber, '#\s+#', '');
-		if (!preg_match('#^\d{8}$#', $ic)) {
+		$ic = Strings::trim(Strings::upper(Strings::removeWhitespace($businessNumber)));
+		foreach (self::BUSINESS_PREFIXES as $prefix) {
+			$ic = str_replace($prefix, '', $ic);
+		}
+		if (!preg_match('/^\d{8}$/', $ic)) {
 			return false;
 		}
 		$a = 0;
@@ -64,9 +69,10 @@ class Validators extends NetteValidators
 
 	public static function isCzechPhoneNumber(string $phoneNumber): bool
 	{
-		$prefixes = implode('|', self::CZECH_PHONE_PREFIXES);
+		$prefixes = '(' . implode('|', self::PHONE_PREFIXES) . ')?';
+		$pattern = str_repeat(' ?[0-9]{3}', 3);
 		$match = preg_match(
-			'#^(' . $prefixes . ')? ?[0-9]{3} ?[0-9]{3} ?[0-9]{3}$#',
+			'/^' . $prefixes . $pattern . '$/',
 			trim($phoneNumber)
 		);
 		return $match === 1;

@@ -3,6 +3,7 @@
     <property name="src" value="src"/>
     <property name="tests" value="tests"/>
     <property name="ruleset" value="codesniffer-ruleset.xml"/>
+    <property name="temp" value="temp"/>
 
     <target name="fix" description="Run lints and tests. Run before every pull request!"
             depends="lint, cs, phpstan, test"/>
@@ -85,7 +86,6 @@
                 passthru="true"
                 checkreturn="true"
         >
-            <arg value="--no-coverage"/>
         </exec>
     </target>
 
@@ -96,6 +96,8 @@
                 passthru="true"
                 checkreturn="true"
         >
+            <arg value="--coverage-clover=${temp}/coverage.xml"/>
+            <arg value="--coverage-html=${temp}/coverage"/>
         </exec>
     </target>
 </project>
