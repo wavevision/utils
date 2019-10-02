@@ -64,10 +64,12 @@ class Validators extends NetteValidators
 
 	public static function isCzechPhoneNumber(string $phoneNumber): bool
 	{
-		return preg_match(
-			'#^(' . implode('|', self::CZECH_PHONE_PREFIXES) . ')? ?[0-9]{3} ?[0-9]{3} ?[0-9]{3}$#',
+		$prefixes = implode('|', self::CZECH_PHONE_PREFIXES);
+		$match = preg_match(
+			'#^(' . $prefixes . ')? ?[0-9]{3} ?[0-9]{3} ?[0-9]{3}$#',
 			trim($phoneNumber)
-		) === 1;
+		);
+		return $match === 1;
 	}
 
 	public static function isRgbColor(string $color): bool
