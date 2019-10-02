@@ -23,7 +23,7 @@ jobs:
       install:
         - wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
       script:
-        - composer phing test
+        - composer phing test:coverage
         - php php-coveralls.phar --verbose --config .coveralls.yml
 
 cache:
