@@ -23,7 +23,7 @@ class Strings extends NetteStrings
 
 	public static function camelCaseToDashCase(string $s): string
 	{
-		return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $s) ?: $s);
+		return strtolower(self::replace($s, '/([a-zA-Z])(?=[A-Z])/', '$1-'));
 	}
 
 	public static function contains(string $haystack, string $needle, bool $caseSensitive = true): bool
@@ -56,29 +56,43 @@ class Strings extends NetteStrings
 		}
 	}
 
-	public static function convertEncoding(string $string, string $sourceEncoding, string $targetEncoding): string
+	public static function convertEncoding(string $s, string $sourceEncoding, string $targetEncoding): string
 	{
-		$converted = @iconv($sourceEncoding, $targetEncoding, $string);
+		$converted = @iconv($sourceEncoding, $targetEncoding, $s);
 		if ($converted === false) {
 			throw self::createEncodingIOException($sourceEncoding, $targetEncoding);
 		}
 		return $converted;
 	}
 
-	public static function dashCaseToCamelCase(string $string): string
+	public static function dashCaseToCamelCase(string $s): string
 	{
-		return lcfirst(str_replace('-', '', ucwords($string, '-')));
+		return lcfirst(str_replace('-', '', ucwords($s, '-')));
 	}
 
-	public static function getClassNameFromNamespace(string $namespace, bool $camelCase = false): string
+	public static function getClassName(string $class, bool $camelCase = false): string
 	{
-		$className = substr(strrchr($namespace, '\\') ?: $namespace, 1);
+		$className = substr(strrchr($class, '\\') ?: $class, 1);
 		return $camelCase ? lcfirst($className) : $className;
+	}
+
+	public static function getNamespace(string $class): string
+	{
+		return rtrim(str_replace(self::getClassName($class), '', $class), '\\');
+	}
+
+	public static function removeAccentedChars(string $s): string
+	{
+		return self::replace(
+			self::convertEncoding(self::autoUtf($s), Encoding::UTF, 'ascii//TRANSLIT'),
+			'#[^a-zA-z]#',
+			''
+		);
 	}
 
 	public static function removeBlankLines(string $s): string
 	{
-		return preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $s) ?: $s;
+		return self::replace($s, "/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n");
 	}
 
 	public static function removeEmoji(string $s): string

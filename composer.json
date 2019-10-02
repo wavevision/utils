@@ -1,58 +1,50 @@
 {
-	"name": "wavevision/utils",
-	"description": "Set of useful PHP utilities and helpers.",
-	"type": "library",
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Wavevision s.r.o.",
-			"email": "info@wavevision.com"
-		},
-		{
-			"name": "Jakub Filla",
-			"email": "jakub.filla@wavevision.com"
-		},
-		{
-			"name": "Vít Rozsíval",
-			"email": "vit@wavevision.com"
-		}
-	],
-	"autoload": {
-		"psr-4": {
-			"Wavevision\\": "src"
-		}
-	},
-	"autoload-dev": {
-		"psr-4": {
-			"Wavevision\\": "tests"
-		}
-	},
-	"require": {
-		"php": ">=7.2",
-		"ext-iconv": "*",
-		"nette/utils": "^3.0",
-		"flow/jsonpath": "^0.4.0"
-	},
-	"require-dev": {
-		"jakub-onderka/php-parallel-lint": "^1.0",
-		"phpstan/phpstan": "^0.10",
-		"phpunit/phpunit": "^8.3",
-		"wavevision/coding-standard": "dev-master",
-		"php-mock/php-mock-mockery": "^1.3",
-		"mikey179/vfsstream": "^1.6"
-	},
-	"scripts": {
-		"lint": "vendor/bin/parallel-lint -e php --exclude vendor --exclude temp .",
-		"phpcs": "vendor/bin/phpcs -sp --standard=codesniffer-ruleset.xml --extensions=php src tests",
-		"phpcbf": "vendor/bin/phpcbf -spn --standard=codesniffer-ruleset.xml --extensions=php src tests",
-		"cs": "composer phpcbf ; composer phpcs",
-		"phpstan": "vendor/bin/phpstan analyse src tests --level max",
-		"test": "./vendor/bin/phpunit",
-		"fix": [
-			"@lint",
-			"@cs",
-			"@phpstan",
-			"@test"
-		]
-	}
+  "name": "wavevision/utils",
+  "description": "Set of useful PHP utilities and helpers.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Wavevision s.r.o.",
+      "email": "info@wavevision.com"
+    },
+    {
+      "name": "Jakub Filla",
+      "email": "jakub.filla@wavevision.com"
+    },
+    {
+      "name": "Vít Rozsíval",
+      "email": "vit@wavevision.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Wavevision\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Wavevision\\": "tests"
+    }
+  },
+  "require": {
+    "php": ">=7.2",
+    "ext-iconv": "*",
+    "flow/jsonpath": "^0.4.0",
+    "nette/finder": "^2.5",
+    "nette/utils": "^3.0"
+  },
+  "require-dev": {
+    "jakub-onderka/php-parallel-lint": "^1.0",
+    "phpstan/phpstan": "^0.10",
+    "phpunit/phpunit": "^8.3",
+    "wavevision/coding-standard": "dev-master",
+    "php-mock/php-mock-mockery": "^1.3",
+    "mikey179/vfsstream": "^1.6",
+    "php-mock/php-mock-phpunit": "^2.4",
+    "phing/phing": "^2.16"
+  },
+  "scripts": {
+    "phing": "phing"
+  }
 }

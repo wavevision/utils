@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Wavevision Utils" default="init">
+    <property name="src" value="src"/>
+    <property name="tests" value="tests"/>
+    <property name="ruleset" value="codesniffer-ruleset.xml"/>
+
+    <target name="fix" description="Run lints and tests. Run before every pull request!"
+            depends="lint, cs, phpstan, test"/>
+    <target name="cs" description="Check code style and fix it if possible" depends="phpcbf, phpcs"/>
+    <target name="init" description="Initialize project" depends="composer"/>
+
+    <target name="composer" description="Download Php dependencies">
+        <exec
+                executable="composer"
+                logoutput="true"
+                passthru="true"
+                checkreturn="true"
+        >
+            <arg value="install"/>
+        </exec>
+    </target>
+
+    <target name="lint" description="Check Php syntax">
+        <exec
+                executable="vendor/bin/parallel-lint"
+                logoutput="true"
+                passthru="true"
+                checkreturn="true"
+        >
+            <arg value="-e"/>
+            <arg value="php"/>
+            <arg value="${src}"/>
+            <arg value="${tests}"/>
+        </exec>
+    </target>
+
+    <target name="phpcbf" description="Fix fixable code style issues">
+        <exec
+                executable="vendor/bin/phpcbf"
+                logoutput="true"
+                passthru="true"
+                checkreturn="false"
+        >
+            <arg value="-spn"/>
+            <arg value="--standard=${ruleset}"/>
+            <arg value="--extensions=php"/>
+            <arg value="${src}"/>
+            <arg value="${tests}"/>
+        </exec>
+    </target>
+
+    <target name="phpcs" description="Check code style and don't fix it">
+        <exec
+                executable="vendor/bin/phpcs"
+                logoutput="true"
+                passthru="true"
+                checkreturn="true"
+        >
+            <arg value="-sp"/>
+            <arg value="--standard=${ruleset}"/>
+            <arg value="--extensions=php"/>
+            <arg value="${src}"/>
+            <arg value="${tests}"/>
+        </exec>
+    </target>
+
+    <target name="phpstan" description="Run static analysis">
+        <exec
+                executable="vendor/bin/phpstan"
+                logoutput="true"
+                passthru="true"
+                checkreturn="true"
+        >
+            <arg value="analyze"/>
+            <arg value="${src}"/>
+            <arg value="--level"/>
+            <arg value="max"/>
+        </exec>
+    </target>
+
+    <target name="test" description="Run tests">
+        <exec
+                executable="vendor/bin/phpunit"
+                logoutput="true"
+                passthru="true"
+                checkreturn="true"
+        >
+            <arg value="--no-coverage"/>
+        </exec>
+    </target>
+
+    <target name="test:coverage" description="Run tests with coverage">
+        <exec
+                executable="vendor/bin/phpunit"
+                logoutput="true"
+                passthru="true"
+                checkreturn="true"
+        >
+        </exec>
+    </target>
+</project>

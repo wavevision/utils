@@ -4,12 +4,18 @@ namespace Wavevision\UtilsTests;
 
 use PHPUnit\Framework\TestCase;
 use Wavevision\Utils\Objects;
+use Wavevision\Utils\Tokenizer;
 
 /**
  * @covers \Wavevision\Utils\Objects
  */
 class ObjectsTest extends TestCase
 {
+
+	public function testGetClassName(): void
+	{
+		$this->assertEquals('Tokenizer', Objects::getClassName(new Tokenizer()));
+	}
 
 	public function testGetIfNotNull(): void
 	{
@@ -20,6 +26,11 @@ class ObjectsTest extends TestCase
 			->willReturn('mama');
 		$this->assertEquals('mama', Objects::getIfNotNull($mock, 'yoMama'));
 		$this->assertEquals(null, Objects::getIfNotNull(null, 'yoMama'));
+	}
+
+	public function testGetNamespace(): void
+	{
+		$this->assertEquals('Wavevision\Utils', Objects::getNamespace(new Tokenizer()));
 	}
 
 	public function testHasGetter(): void

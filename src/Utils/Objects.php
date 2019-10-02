@@ -19,6 +19,11 @@ class Objects
 		return $object->{self::name('get', $property)}();
 	}
 
+	public static function getClassName(object $object): string
+	{
+		return Strings::getClassName(get_class($object));
+	}
+
 	/**
 	 * @param object|null $object
 	 * @param string $property
@@ -32,6 +37,11 @@ class Objects
 				return self::get($object, $property);
 			}
 		);
+	}
+
+	public static function getNamespace(object $object): string
+	{
+		return Strings::getNamespace(get_class($object));
 	}
 
 	public static function hasGetter(object $object, string $property): bool

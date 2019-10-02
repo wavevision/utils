@@ -61,10 +61,20 @@ class StringsTest extends TestCase
 		$this->assertEquals('oneTwo', Strings::dashCaseToCamelCase('one-two'));
 	}
 
-	public function testGetClassNameFromNamespace(): void
+	public function testGetClassName(): void
 	{
-		$this->assertEquals('Strings', Strings::getClassNameFromNamespace(Strings::class));
-		$this->assertEquals('strings', Strings::getClassNameFromNamespace(Strings::class, true));
+		$this->assertEquals('Strings', Strings::getClassName(Strings::class));
+		$this->assertEquals('strings', Strings::getClassName(Strings::class, true));
+	}
+
+	public function testGetNamespace(): void
+	{
+		$this->assertEquals('Wavevision\Utils', Strings::getNamespace(Strings::class));
+	}
+
+	public function testRemoveAccentedChars(): void
+	{
+		$this->assertEquals('cabcde', Strings::removeAccentedChars('čábčďę'));
 	}
 
 	public function testRemoveBlankLines(): void
