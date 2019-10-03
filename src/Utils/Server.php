@@ -14,7 +14,7 @@ class Server
 	{
 		$result = ini_get($key);
 		if ($result === false) {
-			throw new IOException("Failed to get php.ini key '$key'!");
+			throw new IOException("Unable to get php.ini key '$key'.");
 		}
 		return $result;
 	}

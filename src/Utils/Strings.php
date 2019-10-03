@@ -124,6 +124,6 @@ class Strings extends NetteStrings
 
 	private static function createEncodingIOException(string $source, string $target): IOException
 	{
-		return new IOException("Could not convert '$source' to '$target' encoding!");
+		return new IOException("Unable to convert '$source' to '$target' encoding.");
 	}
 }
