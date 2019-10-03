@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="Wavevision Utils" default="init">
-    <property name="src" value="src"/>
-    <property name="tests" value="tests"/>
+    <property name="bin" value="vendor/bin" />
     <property name="ruleset" value="codesniffer-ruleset.xml"/>
+    <property name="src" value="src"/>
     <property name="temp" value="temp"/>
+    <property name="tests" value="tests"/>
 
     <target name="fix" description="Run lints and tests. Run before every pull request!"
             depends="lint, cs, phpstan, test"/>
@@ -23,7 +24,7 @@
 
     <target name="lint" description="Check Php syntax">
         <exec
-                executable="vendor/bin/parallel-lint"
+                executable="${bin}/parallel-lint"
                 logoutput="true"
                 passthru="true"
                 checkreturn="true"
@@ -37,7 +38,7 @@
 
     <target name="phpcbf" description="Fix fixable code style issues">
         <exec
-                executable="vendor/bin/phpcbf"
+                executable="${bin}/phpcbf"
                 logoutput="true"
                 passthru="true"
                 checkreturn="false"
@@ -52,7 +53,7 @@
 
     <target name="phpcs" description="Check code style and don't fix it">
         <exec
-                executable="vendor/bin/phpcs"
+                executable="${bin}/phpcs"
                 logoutput="true"
                 passthru="true"
                 checkreturn="true"
@@ -67,7 +68,7 @@
 
     <target name="phpstan" description="Run static analysis">
         <exec
-                executable="vendor/bin/phpstan"
+                executable="${bin}/phpstan"
                 logoutput="true"
                 passthru="true"
                 checkreturn="true"
@@ -81,7 +82,7 @@
 
     <target name="test" description="Run tests">
         <exec
-                executable="vendor/bin/phpunit"
+                executable="${bin}/phpunit"
                 logoutput="true"
                 passthru="true"
                 checkreturn="true"
@@ -91,7 +92,7 @@
 
     <target name="test:coverage" description="Run tests with coverage">
         <exec
-                executable="vendor/bin/phpunit"
+                executable="${bin}/phpunit"
                 logoutput="true"
                 passthru="true"
                 checkreturn="true"
