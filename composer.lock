@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a588fb156814e4da37585ccc35723b01",
+    "content-hash": "7eb20254b4c45075e4e7ee571694974d",
     "packages": [
         {
             "name": "flow/jsonpath",
@@ -3428,12 +3428,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wavevision/coding-standard.git",
-                "reference": "d332160f222a2c80a5f5471351a3e4269bbb79af"
+                "reference": "80e5651b109561c4fc87d765b225c27e6fa69aff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wavevision/coding-standard/zipball/d332160f222a2c80a5f5471351a3e4269bbb79af",
-                "reference": "d332160f222a2c80a5f5471351a3e4269bbb79af",
+                "url": "https://api.github.com/repos/wavevision/coding-standard/zipball/80e5651b109561c4fc87d765b225c27e6fa69aff",
+                "reference": "80e5651b109561c4fc87d765b225c27e6fa69aff",
                 "shasum": ""
             },
             "require": {
@@ -3477,7 +3477,7 @@
             ],
             "description": "The Wavevision PHP coding standard.",
             "homepage": "https://github.com/wavevision/coding-standard",
-            "time": "2019-10-03T13:55:33+00:00"
+            "time": "2019-10-03T14:03:03+00:00"
         },
         {
             "name": "webmozart/assert",
