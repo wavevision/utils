@@ -8,7 +8,7 @@ Set of useful PHP utilities and helpers extending [nette/utils](https://github.c
 
 **Requirements:**
 
-- Php 7.2
+- PHP 7.2
 
 ## Installation
 
@@ -24,7 +24,7 @@ The package contains useful classes for:
 
 - [Arrays](./src/Utils/Arrays.php) – array helpers (manipulate, sort, extract etc.)
 - [Finder](./src/Utils/Finder.php) – adds sorting to [nette/finder](https://github.com/nette/finder)
-- [Json](./src/Utils/Json.php) – JSON pretty encoder with Php and JavaScript indents
+- [Json](./src/Utils/Json.php) – JSON pretty encoder with PHP and JavaScript indents
 - [Objects](./src/Utils/Objects.php) – dynamic get / set accessors
 - [Server](./src/Utils/Server.php) – access some useful server info (e.g. file upload limit)
 - [Strings](./src/Utils/Strings.php) – string helpers (encode, transform etc.)

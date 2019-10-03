@@ -11,7 +11,7 @@
     <target name="cs" description="Check code style and fix it if possible" depends="phpcbf, phpcs"/>
     <target name="init" description="Initialize project" depends="composer"/>
 
-    <target name="composer" description="Download Php dependencies">
+    <target name="composer" description="Download PHP dependencies">
         <exec
                 executable="composer"
                 logoutput="true"
@@ -22,7 +22,7 @@
         </exec>
     </target>
 
-    <target name="lint" description="Check Php syntax">
+    <target name="lint" description="Check PHP syntax">
         <exec
                 executable="${bin}/parallel-lint"
                 logoutput="true"
