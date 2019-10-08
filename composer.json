@@ -2,7 +2,6 @@
   "name": "wavevision/utils",
   "description": "Useful PHP utilities and helpers.",
   "type": "library",
-  "version": "1.0.0",
   "license": "MIT",
   "authors": [
     {
