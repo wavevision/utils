@@ -6,10 +6,6 @@
 
 Set of useful PHP utilities and helpers extending [nette/utils](https://github.com/nette/utils).
 
-**Requirements:**
-
-- PHP 7.2
-
 ## Installation
 
 Via [Composer](https://getcomposer.org)
