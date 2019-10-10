@@ -7,12 +7,11 @@ php: 7.2
 git:
   depth: 1
 
-before_script:
+install:
   - composer install
 
 jobs:
   include:
-    - stage: PHP
     - script: composer phing lint
       name: "Parallel Lint"
     - script: composer phing phpcs
