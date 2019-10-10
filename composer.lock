@@ -3952,12 +3952,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wavevision/coding-standard.git",
-                "reference": "11358b77f8758536baba4b495bdb0b6bfcb779f8"
+                "reference": "48a3dedd87f846f25e2d5c7d41005b8f982e2de8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wavevision/coding-standard/zipball/11358b77f8758536baba4b495bdb0b6bfcb779f8",
-                "reference": "11358b77f8758536baba4b495bdb0b6bfcb779f8",
+                "url": "https://api.github.com/repos/wavevision/coding-standard/zipball/48a3dedd87f846f25e2d5c7d41005b8f982e2de8",
+                "reference": "48a3dedd87f846f25e2d5c7d41005b8f982e2de8",
                 "shasum": ""
             },
             "require": {
@@ -3967,6 +3967,7 @@
             "require-dev": {
                 "jakub-onderka/php-parallel-lint": "^1.0",
                 "phing/phing": "^2.16",
+                "php-coveralls/php-coveralls": "^2.1",
                 "phpstan/phpstan": "^0.10",
                 "phpunit/phpunit": "^8.3"
             },
@@ -4001,7 +4002,7 @@
             ],
             "description": "The Wavevision PHP coding standard.",
             "homepage": "https://github.com/wavevision/coding-standard",
-            "time": "2019-10-09T16:38:03+00:00"
+            "time": "2019-10-10T15:33:10+00:00"
         },
         {
             "name": "webmozart/assert",
