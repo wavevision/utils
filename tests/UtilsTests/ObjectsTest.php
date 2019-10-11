@@ -4,7 +4,7 @@ namespace Wavevision\UtilsTests;
 
 use PHPUnit\Framework\TestCase;
 use Wavevision\Utils\Objects;
-use Wavevision\Utils\Tokenizer;
+use Wavevision\Utils\Tokenizer\Tokenizer;
 
 /**
  * @covers \Wavevision\Utils\Objects
@@ -68,4 +68,5 @@ class ObjectsTest extends TestCase
 			->willReturnSelf();
 		$this->assertSame($mock, Objects::set($mock, 'yoMama', null));
 	}
+
 }

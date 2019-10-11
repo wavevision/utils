@@ -4,53 +4,36 @@ namespace Wavevision\UtilsTests;
 
 use org\bovigo\vfs\vfsStream as fs;
 use PHPUnit\Framework\TestCase;
-use Wavevision\Utils\Tokenizer;
+use Wavevision\Utils\Tokenizer\Tokenizer;
 
-/**
- * @covers \Wavevision\Utils\Tokenizer
- */
 class TokenizerTest extends TestCase
 {
 
-	public function testGetClassNameFromFile(): void
-	{
-		$this->assertEquals('Two', (new Tokenizer())->getClassNameFromFile($this->getFile('<?php class Two {}')));
-	}
-
-	public function testGetInterfaceNameFromFile(): void
-	{
-		$this->assertEquals(null, (new Tokenizer())->getClassNameFromFile($this->getFile('<?php interface Two {}')));
-	}
-
 	public function testGetStructureNameFromFile(): void
 	{
-		$this->assertEquals(
-			['Two', T_INTERFACE],
-			(new Tokenizer())->getStructureNameFromFile(
-				$this->getFile('<?php interface Two {}'),
-				[T_INTERFACE, T_CLASS]
-			)
+		$class = (new Tokenizer())->getStructureNameFromFile($this->getFile('<?php class Two {}'), [T_CLASS]);
+		$this->assertEquals('Two', $class->getName());
+		$interface = (new Tokenizer())->getStructureNameFromFile(
+			$this->getFile('<?php interface Two {}'),
+			[T_INTERFACE]
 		);
-	}
-
-	public function testGetClassNameFromFileWithNamespace(): void
-	{
+		$this->assertEquals('Two', $interface->getName());
 		$this->assertEquals(
-			'One\Two',
-			(new Tokenizer())->getClassNameFromFile(
-				$this->getFile(
-					'<?php 
+			null,
+			(new Tokenizer())->getStructureNameFromFile($this->getFile('<?php '), [T_CLASS])
+		);
+		$namespace = (new Tokenizer())->getStructureNameFromFile(
+			$this->getFile(
+				'<?php 
 			namespace One;
 			class Two {}
 			'
-				)
-			)
+			),
+			[T_CLASS]
 		);
-	}
-
-	public function testGetClassNameFrom(): void
-	{
-		$this->assertEquals(null, (new Tokenizer())->getClassNameFromFile($this->getFile('<?php ')));
+		$this->assertEquals('One', $namespace->getNamespace());
+		$this->assertEquals('One\Two', $namespace->getFullyQualifiedName());
+		$this->assertEquals(T_CLASS, $namespace->getToken());
 	}
 
 	private function getFile(string $content): string
@@ -60,4 +43,5 @@ class TokenizerTest extends TestCase
 		file_put_contents($file, $content);
 		return $file;
 	}
+
 }
