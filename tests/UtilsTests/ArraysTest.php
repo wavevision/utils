@@ -14,6 +14,12 @@ use Wavevision\Utils\Arrays;
 class ArraysTest extends TestCase
 {
 
+	public function testPop(): void
+	{
+		$a = ['one'];
+		$this->assertEquals('one', Arrays::pop($a));
+	}
+
 	public function testAppendAll(): void
 	{
 		$this->assertEquals(['one', 'two', 'three', 4], Arrays::appendAll(['one', 'two'], ['three', 4]));

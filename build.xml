@@ -111,8 +111,7 @@
                 passthru="true"
                 checkreturn="true"
         >
-            <arg value="--coverage-clover=${coverageClover}"/>
-            <arg value="--coverage-html=${coverage}/html"/>
+            <arg value="--coverage-html=${coverage}"/>
         </exec>
     </target>
 </project>

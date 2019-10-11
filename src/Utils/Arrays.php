@@ -13,6 +13,15 @@ class Arrays extends NetteArrays
 {
 
 	/**
+	 * @param array<mixed> $array
+	 * @return mixed
+	 */
+	public static function pop(array &$array)
+	{
+		return array_pop($array);
+	}
+
+	/**
 	 * @param array<mixed> $a1
 	 * @param array<mixed> $a2
 	 * @return array<mixed>
@@ -589,4 +598,5 @@ class Arrays extends NetteArrays
 	{
 		return is_string($value) ? trim($value) : $value;
 	}
+
 }
