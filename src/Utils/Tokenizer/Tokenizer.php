@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Wavevision\Utils;
+namespace Wavevision\Utils\Tokenizer;
 
 use Nette\SmartObject;
 use Nette\Utils\FileSystem;
@@ -10,18 +10,12 @@ class Tokenizer
 
 	use SmartObject;
 
-	public function getClassNameFromFile(string $fileName): ?string
-	{
-		[$class] = $this->getStructureNameFromFile($fileName, [T_CLASS]);
-		return $class;
-	}
-
 	/**
 	 * @param string $fileName
-	 * @param array<mixed> $tokens
-	 * @return array<string|null>|null
+	 * @param mixed[] $tokens
+	 * @return TokenizeResult|null
 	 */
-	public function getStructureNameFromFile(string $fileName, array $tokens): ?array
+	public function getStructureNameFromFile(string $fileName, array $tokens): ?TokenizeResult
 	{
 		$namespace = $structure = null;
 		$parseNamespace = $parseStructure = false;
@@ -45,7 +39,7 @@ class Tokenizer
 		if ($structure === null) {
 			return null;
 		}
-		return [$namespace ? $namespace . '\\' . $structure : $structure, $matchedToken];
+		return new TokenizeResult((int)$matchedToken, (string)$structure, $namespace);
 	}
 
 	/**
@@ -86,4 +80,5 @@ class Tokenizer
 	{
 		return is_array($token) && $token[0] === $type;
 	}
+
 }
