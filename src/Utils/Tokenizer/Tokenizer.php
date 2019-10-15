@@ -19,22 +19,25 @@ class Tokenizer
 	{
 		$namespace = $structure = null;
 		$parseNamespace = $parseStructure = false;
+		$foundStructure = false;
+		$foundWhitespace = false;
 		$matchedToken = null;
 		foreach (token_get_all(FileSystem::read($fileName)) as $token) {
 			if ($this->tokenMatchesType($token, T_NAMESPACE)) {
 				$parseNamespace = true;
 			}
-			if ($this->tokenMatchesOneType($token, $tokens)) {
-				$matchedToken = $token[0];
-				$parseStructure = true;
-			}
 			if ($parseNamespace) {
 				$this->parseNamespace($token, $namespace, $parseNamespace);
 			}
-			if ($parseStructure && $this->tokenMatchesType($token, T_STRING)) {
+			if ($this->tokenMatchesOneType($token, $tokens)) {
+				$matchedToken = $token[0];
+				$foundStructure = true;
+			}
+			if ($foundStructure && $foundWhitespace && $this->tokenMatchesType($token, T_STRING)) {
 				$structure = $token[1];
 				break;
 			}
+			$foundWhitespace = $this->tokenMatchesType($token, T_WHITESPACE);
 		}
 		if ($structure === null) {
 			return null;
