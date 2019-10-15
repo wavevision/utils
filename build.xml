@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="Wavevision Utils" default="init">
     <property name="bin" value="vendor/bin"/>
+    <property name="codeSnifferExclude" value="*/data/*"/>
+    <property name="codeSnifferRuleset" value="codesniffer-ruleset.xml"/>
     <property name="coverage" value="${temp}/coverage"/>
     <property name="coverageClover" value="${coverage}/coverage.xml"/>
-    <property name="ruleset" value="codesniffer-ruleset.xml"/>
+    <property name="phpBin" value="php"/>
     <property name="src" value="src"/>
     <property name="temp" value="temp"/>
     <property name="tests" value="tests"/>
 
     <target name="fix" description="Run lints and tests. Run before every pull request!"
-            depends="lint, cs, phpstan, test"/>
+            depends="rm-cache, lint, cs, phpstan, test"/>
+    <target name="ci" depends="lint, phpcs, phpstan, test:coverage:report"/>
     <target name="cs" description="Check code style and fix it if possible" depends="phpcbf, phpcs"/>
     <target name="init" description="Initialize project" depends="composer"/>
+
+    <target name="rm-cache" description="Clear cache">
+        <exec executable="rm -rf temp/cache"/>
+    </target>
 
     <target name="composer" description="Download PHP dependencies">
         <exec
@@ -32,7 +39,7 @@
                 checkreturn="true"
         >
             <arg value="-e"/>
-            <arg value="php"/>
+            <arg value="${phpBin}"/>
             <arg value="${src}"/>
             <arg value="${tests}"/>
         </exec>
@@ -46,8 +53,9 @@
                 checkreturn="false"
         >
             <arg value="-spn"/>
-            <arg value="--standard=${ruleset}"/>
-            <arg value="--extensions=php"/>
+            <arg value="--standard=${codeSnifferRuleset}"/>
+            <arg value="--extensions=${phpBin}"/>
+            <arg value="--ignore=${codeSnifferExclude}"/>
             <arg value="${src}"/>
             <arg value="${tests}"/>
         </exec>
@@ -61,8 +69,9 @@
                 checkreturn="true"
         >
             <arg value="-sp"/>
-            <arg value="--standard=${ruleset}"/>
-            <arg value="--extensions=php"/>
+            <arg value="--standard=${codeSnifferRuleset}"/>
+            <arg value="--extensions=${phpBin}"/>
+            <arg value="--ignore=${codeSnifferExclude}"/>
             <arg value="${src}"/>
             <arg value="${tests}"/>
         </exec>
@@ -92,7 +101,7 @@
         </exec>
     </target>
 
-    <target name="test:ci" description="Run tests and publish to Coveralls" depends="test:coverage">
+    <target name="test:coverage:report" description="Report coverage to Coveralls" depends="test:coverage:clover">
         <exec
                 executable="${bin}/php-coveralls"
                 logoutput="true"
@@ -104,7 +113,7 @@
         </exec>
     </target>
 
-    <target name="test:coverage" description="Run tests with coverage">
+    <target name="test:coverage:clover" description="Run tests and generate coverage as xml">
         <exec
                 executable="${bin}/phpunit"
                 logoutput="true"
@@ -112,7 +121,24 @@
                 checkreturn="true"
         >
             <arg value="--coverage-clover=${coverageClover}"/>
-            <arg value="--coverage-html=${coverage}/html"/>
+        </exec>
+    </target>
+
+
+    <target name="test:coverage" description="Run tests with coverage">
+        <exec
+                executable="${bin}/phpunit"
+                logoutput="true"
+                passthru="true"
+                checkreturn="true"
+        >
+            <arg value="--coverage-html=${coverage}"/>
+        </exec>
+    </target>
+
+    <target name="test:coverage:open" description="Open coverage in Chrome" depends="test:coverage">
+        <exec executable="google-chrome">
+            <arg value="${coverage}/index.html"/>
         </exec>
     </target>
 </project>

@@ -12,14 +12,7 @@ install:
 
 jobs:
   include:
-    - script: composer phing lint
-      name: "Parallel Lint"
-    - script: composer phing phpcs
-      name: "CodeSniffer"
-    - script: composer phing phpstan
-      name: "PHPStan"
-    - script: composer phing test:ci
-      name: "Tests"
+    - script: composer phing ci
 
 cache:
   directories:
