@@ -95,6 +95,11 @@ class Strings extends NetteStrings
 		return self::replace($s, "/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n");
 	}
 
+	public static function removeBOM(string $s): string
+	{
+		return self::replace($s, "#\xEF\xBB\xBF#", '');
+	}
+
 	public static function removeEmoji(string $s): string
 	{
 		foreach (Encoding::EMOJI_PATTERNS as $pattern) {

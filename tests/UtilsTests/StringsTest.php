@@ -82,6 +82,11 @@ class StringsTest extends TestCase
 		$this->assertEquals("tested\ntext", Strings::removeBlankLines("tested\n \ntext"));
 	}
 
+	public function testRemoveBOM(): void
+	{
+		$this->assertEquals('test', Strings::removeBOM("\xEF\xBB\xBFtest"));
+	}
+
 	public function testRemoveEmoji(): void
 	{
 		$this->assertEquals('text', Strings::removeEmoji('😀🏯text🗺🎵'));
