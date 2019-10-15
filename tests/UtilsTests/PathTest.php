@@ -13,6 +13,6 @@ class PathTest extends TestCase
 
 	public function testJoin(): void
 	{
-		$this->assertEquals('/path/to/somewhere', Path::join('//path', '/to', '\\\\somewhere/'));
+		$this->assertEquals('/path/to/somewhere', Path::join('//path', '/to', null, '\\\\somewhere/'));
 	}
 }

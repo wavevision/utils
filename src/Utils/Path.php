@@ -11,7 +11,7 @@ class Path
 
 	public const DELIMITER = '/';
 
-	public static function join(string ...$parts): string
+	public static function join(?string ...$parts): string
 	{
 		return Strings::replace(
 			implode(self::DELIMITER, array_map([self::class, 'trim'], $parts)),
@@ -20,8 +20,11 @@ class Path
 		);
 	}
 
-	public static function trim(string $path): string
+	public static function trim(?string $path): ?string
 	{
+		if ($path === null) {
+			return null;
+		}
 		return rtrim($path, self::DELIMITER);
 	}
 }
