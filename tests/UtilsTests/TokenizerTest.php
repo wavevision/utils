@@ -9,7 +9,7 @@ use Wavevision\Utils\Tokenizer\Tokenizer;
 class TokenizerTest extends TestCase
 {
 
-	public function testGetStructureNameFromFile(): void
+	public function testGetStructureNameFromFileValid(): void
 	{
 		$class = (new Tokenizer())->getStructureNameFromFile($this->getFile('<?php class Two {}'), [T_CLASS]);
 		$this->assertEquals('Two', $class->getName());
@@ -18,10 +18,6 @@ class TokenizerTest extends TestCase
 			[T_INTERFACE]
 		);
 		$this->assertEquals('Two', $interface->getName());
-		$this->assertEquals(
-			null,
-			(new Tokenizer())->getStructureNameFromFile($this->getFile('<?php '), [T_CLASS])
-		);
 		$namespace = (new Tokenizer())->getStructureNameFromFile(
 			$this->getFile(
 				'<?php 
@@ -34,6 +30,21 @@ class TokenizerTest extends TestCase
 		$this->assertEquals('One', $namespace->getNamespace());
 		$this->assertEquals('One\Two', $namespace->getFullyQualifiedName());
 		$this->assertEquals(T_CLASS, $namespace->getToken());
+	}
+
+	public function testGetStructureNameFromFileInvalid(): void
+	{
+		$this->assertNoStructure('<?php function (){};');
+		$this->assertNoStructure('<?php X::getByType(Application::class)->run();');
+		$this->assertNoStructure('<?php X::getByType(Application::class )->run();');
+	}
+
+	private function assertNoStructure(string $php): void
+	{
+		$this->assertEquals(
+			null,
+			(new Tokenizer())->getStructureNameFromFile($this->getFile($php), [T_CLASS])
+		);
 	}
 
 	private function getFile(string $content): string
