@@ -69,4 +69,30 @@ class ObjectsTest extends TestCase
 		$this->assertSame($mock, Objects::set($mock, 'yoMama', null));
 	}
 
+	public function testToArray(): void
+	{
+		$mock = $this->getMockBuilder(\stdClass::class)
+			->addMethods(['getYoMama', 'getYo'])
+			->getMock();
+		$mock->method('getYoMama')->willReturn('chewbacca');
+		$mock->method('getYo')->willReturn('yo');
+		$this->assertEquals(
+			[
+				'yoMama' => 'chewbacca',
+				'yoPapa' => 'kenobi',
+				'yo' => 'yo',
+			],
+			Objects::toArray(
+				$mock,
+				['yoMama'],
+				[
+					'yoPapa' => 'kenobi',
+					'yo' => function ($yo) {
+						return $yo;
+					},
+				]
+			)
+		);
+	}
+
 }

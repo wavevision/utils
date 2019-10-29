@@ -75,8 +75,26 @@ class Objects
 		return $object->{self::name('set', $property)}($value);
 	}
 
+	/**
+	 * @param array<mixed> $keys
+	 * @param array<mixed> $extra
+	 * @return array<mixed>
+	 */
+	public static function toArray(object $object, array $keys, array $extra = []): array
+	{
+		$values = [];
+		foreach ($keys as $name) {
+			$values[$name] = self::get($object, $name);
+		}
+		foreach ($extra as $key => $value) {
+			$values[$key] = is_callable($value) ? $value(self::get($object, $key)) : $value;
+		}
+		return $values;
+	}
+
 	private static function name(string $prefix, string $name): string
 	{
 		return $prefix . ucfirst($name);
 	}
+
 }
