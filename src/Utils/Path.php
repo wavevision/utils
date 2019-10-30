@@ -14,9 +14,13 @@ class Path
 	public static function join(?string ...$parts): string
 	{
 		return Strings::replace(
-			implode(self::DELIMITER, array_map([self::class, 'trim'], $parts)),
-			['#\\\#', '#//+#'],
-			self::DELIMITER
+			Strings::replace(
+				implode(self::DELIMITER, array_map([self::class, 'trim'], $parts)),
+				['#\\\#', '#//+#'],
+				self::DELIMITER
+			),
+			'#:/#',
+			'://'
 		);
 	}
 
