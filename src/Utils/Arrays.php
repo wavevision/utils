@@ -148,7 +148,7 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param iterable<mixed> $collection
-	 * @return mixed|null
+	 * @return mixed
 	 */
 	public static function firstItem(iterable $collection)
 	{
@@ -166,6 +166,25 @@ class Arrays extends NetteArrays
 			break;
 		}
 		return $key;
+	}
+
+	/**
+	 * @param iterable<mixed> $collection
+	 * @return mixed
+	 */
+	public static function lastItem(iterable $collection)
+	{
+		return $collection[self::lastKey($collection)] ?? null;
+	}
+
+	/**
+	 * @param iterable<mixed> $collection
+	 * @return mixed
+	 */
+	public static function lastKey(iterable $collection)
+	{
+		end($collection);
+		return key($collection);
 	}
 
 	/**
@@ -598,4 +617,5 @@ class Arrays extends NetteArrays
 	{
 		return is_string($value) ? trim($value) : $value;
 	}
+
 }

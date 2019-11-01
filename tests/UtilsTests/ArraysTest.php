@@ -96,6 +96,16 @@ class ArraysTest extends TestCase
 		$this->assertEquals('some-key', Arrays::firstKey(['some-key' => 'some-value', 2 => 'two']));
 	}
 
+	public function testLastItem(): void
+	{
+		$this->assertEquals(1, Arrays::lastItem([2, 1]));
+	}
+
+	public function testLastKey(): void
+	{
+		$this->assertEquals(2, Arrays::lastKey([1 => 1, 2 => 2]));
+	}
+
 	public function testFlattenKeys(): void
 	{
 		$this->assertEquals(
@@ -500,4 +510,5 @@ class ArraysTest extends TestCase
 			)
 		);
 	}
+
 }
