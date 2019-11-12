@@ -2,14 +2,27 @@
 
 namespace Wavevision\Utils;
 
-use Nette\StaticClass;
+use Nette\SmartObject;
 
 class Path
 {
 
-	use StaticClass;
-
 	public const DELIMITER = '/';
+
+	use SmartObject;
+
+	/**
+	 * @var array<string|null>
+	 */
+	private $path;
+
+	/**
+	 * @return static
+	 */
+	public static function create(?string ...$path)
+	{
+		return new self(...$path);
+	}
 
 	public static function join(?string ...$parts): string
 	{
@@ -31,4 +44,23 @@ class Path
 		}
 		return rtrim($path, self::DELIMITER);
 	}
+
+	/**
+	 * @return static
+	 */
+	public function path(?string ...$path)
+	{
+		return self::create(self::join(...array_merge($this->path, $path)));
+	}
+
+	public function __toString(): string
+	{
+		return self::join(...$this->path);
+	}
+
+	private function __construct(?string ...$path)
+	{
+		$this->path = $path;
+	}
+
 }

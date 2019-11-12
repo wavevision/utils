@@ -15,5 +15,15 @@ class PathTest extends TestCase
 	{
 		$this->assertEquals('/path/to/somewhere', Path::join('//path', '/to', null, '\\\\somewhere/'));
 		$this->assertEquals('http://url.tld/path/to/asset', Path::join('http://url.tld', 'path', 'to', '/asset'));
+		$this->assertEquals('r/path', Path::join('r', 'path'));
 	}
+
+	public function testInstanceJoin(): void
+	{
+		$root = Path::create('/r');
+		$nested = $root->path('a', 'b');
+		$this->assertEquals('/r/a/b', $nested);
+		$this->assertEquals('/r/a/b/f.txt', $nested->path('f.txt'));
+	}
+
 }
