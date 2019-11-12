@@ -1,6 +1,6 @@
 <?php declare (strict_types = 1);
 
-namespace Wavevision\UtilsTests;
+namespace Wavevision\UtilsTests\Tokenizer;
 
 use org\bovigo\vfs\vfsStream as fs;
 use PHPUnit\Framework\TestCase;
