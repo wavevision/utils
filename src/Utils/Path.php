@@ -53,6 +53,11 @@ class Path
 		return self::create(self::join(...array_merge($this->path, $path)));
 	}
 
+	public function string(?string ...$path): string
+	{
+		return (string)$this->path(...$path);
+	}
+
 	public function __toString(): string
 	{
 		return self::join(...$this->path);

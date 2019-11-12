@@ -22,8 +22,9 @@ class PathTest extends TestCase
 	{
 		$root = Path::create('/r');
 		$nested = $root->path('a', 'b');
-		$this->assertEquals('/r/a/b', $nested);
-		$this->assertEquals('/r/a/b/f.txt', $nested->path('f.txt'));
+		$this->assertSame('/r/a/b', (string)$nested);
+		$this->assertSame('/r/a/b/f.txt', $nested->path('f.txt')->string());
+		$this->assertSame('b/a', Path::create()->path('b', 'a')->string());
 	}
 
 }
