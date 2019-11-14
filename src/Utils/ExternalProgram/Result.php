@@ -43,6 +43,11 @@ class Result
 		return $this->output;
 	}
 
+	public function getOutputAsString(): string
+	{
+		return implode("\n", $this->output);
+	}
+
 	public function getReturnValue(): int
 	{
 		return $this->returnValue;
