@@ -2,7 +2,6 @@
 
 namespace Wavevision\UtilsTests;
 
-use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Utils\ArrayHash;
 use PHPUnit\Framework\TestCase;
@@ -140,9 +139,21 @@ class ArraysTest extends TestCase
 		$this->assertEquals(true, Arrays::hasNestedKey($array, 'parts', '0', 'format'));
 		$this->assertEquals(false, Arrays::hasNestedKey($array, 'parts', '1', 'format'));
 		$this->assertEquals(false, Arrays::hasNestedKey($array, '42'));
-		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage('Argument "keyParts" should have at least one element.');
-		Arrays::hasNestedKey([]);
+		$this->assertEquals(true, Arrays::hasNestedKey($array));
+	}
+
+	public function testGetNestedValue(): void
+	{
+		$array = [
+			'1' => [
+				'2' => 42,
+			],
+		];
+		$this->assertEquals(['2' => 42], Arrays::getNestedValue($array, '1'));
+		$this->assertEquals(42, Arrays::getNestedValue($array, '1', '2'));
+		$this->assertEquals(null, Arrays::getNestedValue($array, '3'));
+		$this->assertEquals(null, Arrays::getNestedValue([], 'x'));
+		$this->assertEquals($array, Arrays::getNestedValue($array));
 	}
 
 	public function testHasSameValues(): void

@@ -4,7 +4,6 @@ namespace Wavevision\Utils;
 
 use Flow\JSONPath\JSONPath;
 use Flow\JSONPath\JSONPathException;
-use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Arrays as NetteArrays;
@@ -225,15 +224,12 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param array<mixed> $array
-	 * @param string ...$keyParts
+	 * @param string ...$keys
 	 * @return bool
 	 */
-	public static function hasNestedKey(array $array, string ...$keyParts): bool
+	public static function hasNestedKey(array $array, string ...$keys): bool
 	{
-		if (count($keyParts) === 0) {
-			throw new InvalidArgumentException('Argument "keyParts" should have at least one element.');
-		}
-		foreach ($keyParts as $keyPart) {
+		foreach ($keys as $keyPart) {
 			if (key_exists($keyPart, $array)) {
 				$array = $array[$keyPart];
 				if (!is_array($array)) {
@@ -244,6 +240,23 @@ class Arrays extends NetteArrays
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * @param array<mixed> $array
+	 * @param string ...$keys
+	 * @return mixed
+	 */
+	public static function getNestedValue(array $array, string ...$keys)
+	{
+		if (self::hasNestedKey($array, ...$keys)) {
+			$current = $array;
+			foreach ($keys as $key) {
+				$current = $current[$key];
+			}
+			return $current;
+		}
+		return null;
 	}
 
 	/**
