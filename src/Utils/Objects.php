@@ -92,6 +92,16 @@ class Objects
 		return $values;
 	}
 
+	/**
+	 * @param array<mixed> $attributes
+	 */
+	public static function copyAttributes(object $source, object $destination, array $attributes): void
+	{
+		foreach ($attributes as $attribute) {
+			Objects::set($destination, $attribute, Objects::get($source, $attribute));
+		}
+	}
+
 	private static function name(string $prefix, string $name): string
 	{
 		return $prefix . ucfirst($name);

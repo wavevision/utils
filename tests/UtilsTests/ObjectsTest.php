@@ -3,6 +3,7 @@
 namespace Wavevision\UtilsTests;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Wavevision\Utils\Objects;
 use Wavevision\Utils\Tokenizer\Tokenizer;
 
@@ -19,7 +20,7 @@ class ObjectsTest extends TestCase
 
 	public function testGetIfNotNull(): void
 	{
-		$mock = $this->getMockBuilder(\stdClass::class)
+		$mock = $this->getMockBuilder(stdClass::class)
 			->addMethods(['getYoMama'])
 			->getMock();
 		$mock->method('getYoMama')
@@ -37,31 +38,31 @@ class ObjectsTest extends TestCase
 	{
 		$this->assertTrue(
 			Objects::hasGetter(
-				$this->getMockBuilder(\stdClass::class)
+				$this->getMockBuilder(stdClass::class)
 					->addMethods(['getSomething'])
 					->getMock(),
 				'something'
 			)
 		);
-		$this->assertFalse(Objects::hasGetter(new \stdClass(), 'something'));
+		$this->assertFalse(Objects::hasGetter(new stdClass(), 'something'));
 	}
 
 	public function testHasSetter(): void
 	{
 		$this->assertTrue(
 			Objects::hasSetter(
-				$this->getMockBuilder(\stdClass::class)
+				$this->getMockBuilder(stdClass::class)
 					->addMethods(['setSomething'])
 					->getMock(),
 				'something'
 			)
 		);
-		$this->assertFalse(Objects::hasSetter(new \stdClass(), 'something'));
+		$this->assertFalse(Objects::hasSetter(new stdClass(), 'something'));
 	}
 
 	public function testSet(): void
 	{
-		$mock = $this->getMockBuilder(\stdClass::class)
+		$mock = $this->getMockBuilder(stdClass::class)
 			->addMethods(['setYoMama'])
 			->getMock();
 		$mock->method('setYoMama')
@@ -71,7 +72,7 @@ class ObjectsTest extends TestCase
 
 	public function testToArray(): void
 	{
-		$mock = $this->getMockBuilder(\stdClass::class)
+		$mock = $this->getMockBuilder(stdClass::class)
 			->addMethods(['getYoMama', 'getYo'])
 			->getMock();
 		$mock->method('getYoMama')->willReturn('chewbacca');
@@ -93,6 +94,19 @@ class ObjectsTest extends TestCase
 				]
 			)
 		);
+	}
+
+	public function testCopyAttributes(): void
+	{
+		$source = $this->getMockBuilder(stdClass::class)
+			->addMethods(['getA'])
+			->getMock();
+		$source->expects($this->once())->method('getA')->willReturn('1');
+		$target = $this->getMockBuilder(stdClass::class)
+			->addMethods(['setA'])
+			->getMock();
+		$target->expects($this->once())->method('setA')->with('1');
+		Objects::copyAttributes($source, $target, ['A']);
 	}
 
 }
