@@ -2,6 +2,7 @@
 
 namespace Wavevision\Utils;
 
+use Nette\InvalidStateException;
 use Nette\SmartObject;
 
 class Path
@@ -43,6 +44,17 @@ class Path
 			return null;
 		}
 		return rtrim($path, self::DELIMITER);
+	}
+
+	public static function realpath(string $path): string
+	{
+		$realpath = realpath($path);
+		if ($realpath === false) {
+			throw new InvalidStateException(
+				sprintf("Unable to get real path for '%s'. Check if directory exists.", $path)
+			);
+		}
+		return $realpath;
 	}
 
 	/**

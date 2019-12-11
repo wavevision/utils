@@ -2,6 +2,7 @@
 
 namespace Wavevision\UtilsTests;
 
+use Nette\InvalidStateException;
 use PHPUnit\Framework\TestCase;
 use Wavevision\Utils\Path;
 
@@ -25,6 +26,14 @@ class PathTest extends TestCase
 		$this->assertSame('/r/a/b', (string)$nested);
 		$this->assertSame('/r/a/b/f.txt', $nested->path('f.txt')->string());
 		$this->assertSame('b/a', Path::create()->path('b', 'a')->string());
+	}
+
+	public function testRealPath(): void
+	{
+		$this->assertSame(__DIR__, Path::realpath(__DIR__));
+		$this->expectException(InvalidStateException::class);
+		$this->expectExceptionMessage("Unable to get real path for '42'. Check if directory exists.");
+		Path::realpath('42');
 	}
 
 }
