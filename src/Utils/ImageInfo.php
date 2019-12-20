@@ -7,20 +7,11 @@ use Nette\InvalidStateException;
 class ImageInfo
 {
 
-	/**
-	 * @var int
-	 */
-	private $width;
+	private int $width;
 
-	/**
-	 * @var int
-	 */
-	private $height;
+	private int $height;
 
-	/**
-	 * @var string
-	 */
-	private $contentType;
+	private string $contentType;
 
 	public static function create(string $pathname): self
 	{

@@ -17,8 +17,6 @@ class Json
 
 	/**
 	 * @param mixed $value
-	 * @param string $indent
-	 * @return string|null
 	 * @throws JsonException
 	 */
 	public static function encodePretty($value, string $indent = self::INDENT_PHP): ?string

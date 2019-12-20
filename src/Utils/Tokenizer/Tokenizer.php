@@ -11,9 +11,7 @@ class Tokenizer
 	use SmartObject;
 
 	/**
-	 * @param string $fileName
 	 * @param mixed[] $tokens
-	 * @return TokenizeResult|null
 	 */
 	public function getStructureNameFromFile(string $fileName, array $tokens): ?TokenizeResult
 	{
@@ -47,8 +45,6 @@ class Tokenizer
 
 	/**
 	 * @param mixed $token
-	 * @param string|null $namespace
-	 * @param bool $parseNamespace
 	 */
 	private function parseNamespace($token, ?string &$namespace, bool &$parseNamespace): void
 	{
@@ -76,8 +72,6 @@ class Tokenizer
 
 	/**
 	 * @param mixed $token
-	 * @param int $type
-	 * @return bool
 	 */
 	private function tokenMatchesType($token, int $type): bool
 	{

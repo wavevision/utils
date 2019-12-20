@@ -60,7 +60,6 @@ class FinderTest extends TestCase
 
 	/**
 	 * @param array<string> $files
-	 * @return Finder
 	 */
 	private function getFinder(array $files = ['f1', 'f2', 'f3']): Finder
 	{
@@ -69,7 +68,6 @@ class FinderTest extends TestCase
 
 	/**
 	 * @param array<string> $files
-	 * @return string
 	 */
 	private function getDir(array $files): string
 	{

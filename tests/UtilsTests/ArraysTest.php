@@ -2,6 +2,7 @@
 
 namespace Wavevision\UtilsTests;
 
+use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Utils\ArrayHash;
 use PHPUnit\Framework\TestCase;
@@ -103,6 +104,20 @@ class ArraysTest extends TestCase
 	public function testLastKey(): void
 	{
 		$this->assertEquals(2, Arrays::lastKey([1 => 1, 2 => 2]));
+		$iterable = new \ArrayIterator(['one', 'two']);
+		$this->assertEquals(1, Arrays::lastKey($iterable));
+	}
+
+	public function testFilter(): void
+	{
+		$this->assertEquals(
+			['here'],
+			Arrays::filter(['one', 'here', 'two'], fn(string $item): bool => $item === 'here')
+		);
+		$this->assertEquals(
+			[1 => 'here'],
+			Arrays::filter(['one', 'here', 'two'], fn(string $item): bool => $item === 'here', true)
+		);
 	}
 
 	public function testFlattenKeys(): void
@@ -358,6 +373,14 @@ class ArraysTest extends TestCase
 			],
 			Arrays::mergeAllRecursive([], ['a' => 'a'], ['x' => ['x1' => 'x1']], ['x' => ['x2' => 'x2']], ['a' => 'b'])
 		);
+	}
+
+	public function testNthItem(): void
+	{
+		$this->assertEquals(2, Arrays::nthItem([1, 2, 3], 1));
+		$this->assertEquals(3, Arrays::nthItem([1, 2, 3], -1));
+		$this->expectException(InvalidArgumentException::class);
+		Arrays::nthItem([], 2);
 	}
 
 	public function testReplaceByCallbackWithKeys(): void

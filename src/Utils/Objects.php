@@ -10,8 +10,6 @@ class Objects
 	use SmartObject;
 
 	/**
-	 * @param object $object
-	 * @param string $property
 	 * @return mixed
 	 */
 	public static function get(object $object, string $property)
@@ -25,8 +23,6 @@ class Objects
 	}
 
 	/**
-	 * @param object|null $object
-	 * @param string $property
 	 * @return mixed|null
 	 */
 	public static function getIfNotNull(?object $object, string $property)
@@ -55,8 +51,6 @@ class Objects
 	}
 
 	/**
-	 * @param object|null $object
-	 * @param callable $callable
 	 * @return mixed|null
 	 */
 	public static function ifNotNull(?object $object, callable $callable)
@@ -65,8 +59,6 @@ class Objects
 	}
 
 	/**
-	 * @param object $object
-	 * @param string $property
 	 * @param mixed $value
 	 * @return mixed
 	 */

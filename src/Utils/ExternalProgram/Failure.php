@@ -7,10 +7,7 @@ use Exception;
 class Failure extends Exception
 {
 
-	/**
-	 * @var Result
-	 */
-	private $result;
+	private Result $result;
 
 	public function getResult(): Result
 	{

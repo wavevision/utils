@@ -9,20 +9,11 @@ class TokenizeResult
 
 	use SmartObject;
 
-	/**
-	 * @var int
-	 */
-	private $token;
+	private int $token;
 
-	/**
-	 * @var string
-	 */
-	private $name;
+	private string $name;
 
-	/**
-	 * @var string|null
-	 */
-	private $namespace;
+	private ?string $namespace = null;
 
 	public function __construct(int $token, string $name, ?string $namespace)
 	{

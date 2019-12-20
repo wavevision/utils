@@ -23,6 +23,9 @@ class Finder extends NetteFinder
 	 */
 	private $sort;
 
+	/**
+	 * @return Iterator<SplFileInfo>
+	 */
 	public function getIterator(): Iterator
 	{
 		$iterator = parent::getIterator();
@@ -34,12 +37,18 @@ class Finder extends NetteFinder
 		return $iterator;
 	}
 
+	/**
+	 * @return Finder<SplFileInfo>
+	 */
 	public function setSort(callable $sort): self
 	{
 		$this->sort = $sort;
 		return $this;
 	}
 
+	/**
+	 * @return Finder<SplFileInfo>
+	 */
 	public function sortByMTime(string $order = self::ORDER_DESC): self
 	{
 		$this->sort = function (SplFileInfo $f1, SplFileInfo $f2) use ($order): int {
@@ -51,6 +60,9 @@ class Finder extends NetteFinder
 		return $this;
 	}
 
+	/**
+	 * @return Finder<SplFileInfo>
+	 */
 	public function sortByName(string $order = self::ORDER_ASC, string $case = self::CASE_INSENSITIVE): self
 	{
 		$fn = $case === self::CASE_INSENSITIVE ? 'strcasecmp' : 'strcmp';
@@ -68,4 +80,5 @@ class Finder extends NetteFinder
 		};
 		return $this;
 	}
+
 }

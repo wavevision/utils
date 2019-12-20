@@ -4,6 +4,7 @@ namespace Wavevision\Utils;
 
 use Flow\JSONPath\JSONPath;
 use Flow\JSONPath\JSONPathException;
+use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Arrays as NetteArrays;
@@ -61,7 +62,6 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param iterable<mixed> $values
-	 * @return int
 	 */
 	public static function countFilled(iterable $values): int
 	{
@@ -78,7 +78,6 @@ class Arrays extends NetteArrays
 	/**
 	 * @param array<mixed> $a1
 	 * @param array<mixed> $a2
-	 * @param bool $includeMissingKeys
 	 * @return array<mixed>
 	 */
 	public static function diff(array $a1, array $a2, bool $includeMissingKeys = true): array
@@ -114,7 +113,6 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param iterable<object> $collection
-	 * @param string $property
 	 * @return array<mixed>
 	 */
 	public static function extractObjectValues(iterable $collection, string $property): array
@@ -169,27 +167,26 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param iterable<mixed> $collection
-	 * @return mixed
+	 * @param callable(mixed): bool $callback
+	 * @return array<mixed>
 	 */
-	public static function lastItem(iterable $collection)
+	public static function filter(iterable $collection, callable $callback, bool $preserveKeys = false): array
 	{
-		return $collection[self::lastKey($collection)] ?? null;
-	}
-
-	/**
-	 * @param iterable<mixed> $collection
-	 * @return mixed
-	 */
-	public static function lastKey(iterable $collection)
-	{
-		end($collection);
-		return key($collection);
+		$filtered = [];
+		foreach ($collection as $key => $item) {
+			if ($callback($item)) {
+				if ($preserveKeys) {
+					$filtered[$key] = $item;
+				} else {
+					$filtered[] = $item;
+				}
+			}
+		}
+		return $filtered;
 	}
 
 	/**
 	 * @param array<mixed> $array
-	 * @param string $prefix
-	 * @param string $glue
 	 * @return array<mixed>
 	 */
 	public static function flattenKeys(array $array, string $prefix = '', string $glue = '.'): array
@@ -206,7 +203,7 @@ class Arrays extends NetteArrays
 	}
 
 	/**
-	 * @param ArrayHash $arrayHash
+	 * @param ArrayHash<mixed> $arrayHash
 	 * @return array<mixed>
 	 */
 	public static function fromArrayHash(ArrayHash $arrayHash): array
@@ -224,8 +221,22 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param array<mixed> $array
-	 * @param string ...$keys
-	 * @return bool
+	 * @return mixed
+	 */
+	public static function getNestedValue(array $array, string ...$keys)
+	{
+		if (self::hasNestedKey($array, ...$keys)) {
+			$current = $array;
+			foreach ($keys as $key) {
+				$current = $current[$key];
+			}
+			return $current;
+		}
+		return null;
+	}
+
+	/**
+	 * @param array<mixed> $array
 	 */
 	public static function hasNestedKey(array $array, string ...$keys): bool
 	{
@@ -243,26 +254,8 @@ class Arrays extends NetteArrays
 	}
 
 	/**
-	 * @param array<mixed> $array
-	 * @param string ...$keys
-	 * @return mixed
-	 */
-	public static function getNestedValue(array $array, string ...$keys)
-	{
-		if (self::hasNestedKey($array, ...$keys)) {
-			$current = $array;
-			foreach ($keys as $key) {
-				$current = $current[$key];
-			}
-			return $current;
-		}
-		return null;
-	}
-
-	/**
 	 * @param array<mixed> $a1
 	 * @param array<mixed> $a2
-	 * @return bool
 	 */
 	public static function hasSameValues(array $a1, array $a2): bool
 	{
@@ -271,9 +264,6 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param array<string> $array
-	 * @param string $separator
-	 * @param string|null $last
-	 * @return string
 	 */
 	public static function implode(array $array, string $separator = ',', ?string $last = null): string
 	{
@@ -317,7 +307,6 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param mixed $array
-	 * @return bool
 	 */
 	public static function isArrayOfArrays($array): bool
 	{
@@ -334,7 +323,6 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param iterable<mixed> $collection
-	 * @return bool
 	 */
 	public static function isEmpty(iterable $collection): bool
 	{
@@ -359,7 +347,6 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param array<mixed> $data
-	 * @param string $expression
 	 * @return mixed
 	 * @throws JSONPathException
 	 */
@@ -369,8 +356,32 @@ class Arrays extends NetteArrays
 	}
 
 	/**
+	 * @param iterable<mixed> $collection
+	 * @return mixed
+	 */
+	public static function lastItem(iterable $collection)
+	{
+		return $collection[self::lastKey($collection)] ?? null;
+	}
+
+	/**
+	 * @param iterable<mixed> $collection
+	 * @return mixed
+	 */
+	public static function lastKey(iterable $collection)
+	{
+		$array = [];
+		if (is_array($collection)) {
+			$array = $collection;
+		} else {
+			array_push($array, ...$collection);
+		}
+		end($array);
+		return key($array);
+	}
+
+	/**
 	 * @param mixed $collection
-	 * @param callable $callback
 	 * @return array<mixed>
 	 */
 	public static function mapCollection($collection, callable $callback): array
@@ -384,7 +395,6 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param iterable<mixed> $collection
-	 * @param callable $callback
 	 * @return array<mixed>
 	 */
 	public static function mapIterable(iterable $collection, callable $callback): array
@@ -397,7 +407,6 @@ class Arrays extends NetteArrays
 	}
 
 	/**
-	 * @param callable $callback
 	 * @param iterable<mixed> $collection
 	 * @return array<int|string, mixed>
 	 */
@@ -407,7 +416,6 @@ class Arrays extends NetteArrays
 	}
 
 	/**
-	 * @param callable $callback
 	 * @param array<mixed> $array
 	 * @return array<mixed>
 	 */
@@ -417,7 +425,6 @@ class Arrays extends NetteArrays
 	}
 
 	/**
-	 * @param callable $callback
 	 * @param iterable<mixed> $collection
 	 * @return array<int|string, mixed>
 	 */
@@ -463,6 +470,22 @@ class Arrays extends NetteArrays
 	 * @param array<mixed> $array
 	 * @return mixed
 	 */
+	public static function nthItem(array $array, int $index = 0)
+	{
+		if (abs($index) + 1 > count($array)) {
+			throw new InvalidArgumentException("Index '$index' is greater than array length.");
+		}
+		$slice = array_slice($array, $index);
+		if ($index < 0) {
+			return self::lastItem($slice);
+		}
+		return self::firstItem($slice);
+	}
+
+	/**
+	 * @param array<mixed> $array
+	 * @return mixed
+	 */
 	public static function pop(array &$array)
 	{
 		return array_pop($array);
@@ -470,8 +493,6 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param array<mixed> $array
-	 * @param callable $replacer
-	 * @param callable|null $condition
 	 * @param array<int|string> $path
 	 * @return array<mixed>
 	 */
@@ -507,8 +528,6 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param array<mixed> $array
-	 * @param string $prefix
-	 * @param callable $replacer
 	 * @return array<mixed>
 	 */
 	public static function replaceByPrefix(
@@ -530,8 +549,6 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param array<mixed> $array
-	 * @param string $prefix
-	 * @param callable $replacer
 	 * @return array<mixed>
 	 */
 	public static function replaceByPrefixWithKeys(
@@ -562,7 +579,6 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param array<mixed> $array
-	 * @param callable $compare
 	 * @return array<mixed>
 	 */
 	public static function splitBy(
@@ -591,8 +607,6 @@ class Arrays extends NetteArrays
 
 	/**
 	 * @param iterable<mixed> $collection
-	 * @param callable $callback
-	 * @param bool $keys
 	 * @return array<int|string, mixed>
 	 */
 	private static function mapKeys(iterable $collection, callable $callback, bool $keys = false): array
@@ -615,7 +629,6 @@ class Arrays extends NetteArrays
 	/**
 	 * @param mixed $v1
 	 * @param mixed $v2
-	 * @return bool
 	 */
 	private static function sameValues($v1, $v2): bool
 	{

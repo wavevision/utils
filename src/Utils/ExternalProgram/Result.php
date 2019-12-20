@@ -5,20 +5,14 @@ namespace Wavevision\Utils\ExternalProgram;
 class Result
 {
 
-	/**
-	 * @var string
-	 */
-	private $command;
+	private string $command;
 
 	/**
 	 * @var array<string>
 	 */
-	private $output;
+	private array $output;
 
-	/**
-	 * @var int
-	 */
-	private $returnValue;
+	private int $returnValue;
 
 	/**
 	 * @param array<string> $output

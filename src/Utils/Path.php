@@ -15,12 +15,9 @@ class Path
 	/**
 	 * @var array<string|null>
 	 */
-	private $path;
+	private array $path;
 
-	/**
-	 * @return static
-	 */
-	public static function create(?string ...$path)
+	public static function create(?string ...$path): self
 	{
 		return new self(...$path);
 	}
@@ -57,10 +54,7 @@ class Path
 		return $realpath;
 	}
 
-	/**
-	 * @return static
-	 */
-	public function path(?string ...$path)
+	public function path(?string ...$path): self
 	{
 		return self::create(self::join(...array_merge($this->path, $path)));
 	}
