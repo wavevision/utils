@@ -3,6 +3,7 @@
 namespace Wavevision\Utils\DOM;
 
 use Nette\SmartObject;
+use Nette\Utils\Html;
 
 final class DataAttribute
 {
@@ -32,6 +33,16 @@ final class DataAttribute
 	{
 		$this->value($value);
 		return [$this->currentName => $this->currentValue];
+	}
+
+	/**
+	 * @param Html<mixed> $element
+	 * @return Html<mixed>
+	 */
+	public function assign(Html $element): Html
+	{
+		$element->setAttribute($this->currentName, $this->currentValue);
+		return $element;
 	}
 
 	/**

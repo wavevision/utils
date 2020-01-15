@@ -2,6 +2,7 @@
 
 namespace Wavevision\UtilsTests\DOM;
 
+use Nette\Utils\Html;
 use PHPUnit\Framework\TestCase;
 use Wavevision\Utils\DOM\DataAttribute;
 
@@ -17,6 +18,13 @@ class DataAttributeTest extends TestCase
 	{
 		$this->assertEquals('data-test=""', $this->createDataAttribute()->asString());
 		$this->assertEquals('data-prefix-test=""', (string)$this->createDataAttribute('prefix'));
+	}
+
+	public function testAssign(): void
+	{
+		$element = Html::el();
+		$this->createDataAttribute()->assign($element);
+		$this->assertSame('', $element->getAttribute('data-test'));
 	}
 
 	public function testName(): void
