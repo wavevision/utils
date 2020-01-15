@@ -38,9 +38,7 @@
     "ext-iconv": "*",
     "flow/jsonpath": "^0.4.0",
     "nette/finder": "^2.5",
-    "nette/utils": "^3.0",
-    "phpstan/phpstan": "^0.12.3",
-    "wavevision/coding-standard": "^3.0"
+    "nette/utils": "^3.0"
   },
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "^1.0",
@@ -48,7 +46,9 @@
     "phing/phing": "^2.16",
     "php-coveralls/php-coveralls": "^2.1",
     "php-mock/php-mock-phpunit": "^2.4",
-    "phpunit/phpunit": "^8.3"
+    "phpstan/phpstan": "^0.12.3",
+    "phpunit/phpunit": "^8.3",
+    "wavevision/coding-standard": "^3.0"
   },
   "scripts": {
     "phing": "phing"
