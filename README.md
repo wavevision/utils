@@ -19,6 +19,7 @@ composer require wavevision/utils
 The package contains useful classes for:
 
 - [Arrays](./src/Utils/Arrays.php) – array helpers (manipulate, sort, extract etc.)
+- [DOM](./src/Utils/DOM) – create and format data attributes for HTML elements
 - [ExternalProgram](./src/Utils/ExternalProgram/Executor.php) – simple external command runner
 - [Finder](./src/Utils/Finder.php) – adds sorting to [nette/finder](https://github.com/nette/finder)
 - [ImageInfo](./src/Utils/ImageInfo.php) – get image content type and size
