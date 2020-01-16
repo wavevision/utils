@@ -31,8 +31,7 @@ final class DataAttribute
 	 */
 	public function asArray($value = null): array
 	{
-		$this->value($value);
-		return [$this->currentName => $this->currentValue];
+		return [$this->currentName => $this->value($value)];
 	}
 
 	/**
@@ -50,8 +49,7 @@ final class DataAttribute
 	 */
 	public function asString($value = null): string
 	{
-		$this->value($value);
-		return sprintf('%s="%s"', $this->currentName, $this->currentValue);
+		return sprintf('%s="%s"', $this->currentName, $this->value($value));
 	}
 
 	public function name(): string
