@@ -512,12 +512,13 @@ class Arrays extends NetteArrays
 				[$k, $v] = $r;
 				$result[$k] = $v;
 			} elseif (is_array($value)) {
-				array_push($path, $key);
+				$nestedPath = $path;
+				array_push($nestedPath, $key);
 				$result[$key] = self::replaceByCallbackWithKeys(
 					$value,
 					$replacer,
 					$condition,
-					$path
+					$nestedPath
 				);
 			} else {
 				$result[$key] = $value;
@@ -603,6 +604,25 @@ class Arrays extends NetteArrays
 		array $a2
 	): array {
 		return array_unique(array_merge(array_values($a1), array_values($a2)));
+	}
+
+	/**
+	 * @param array<mixed> $values
+	 * @param array<mixed> $keys
+	 * @return array<mixed>
+	 */
+	public static function replaceByPath(array $values, array $keys, callable $replacer): array
+	{
+		return self::replaceByCallbackWithKeys(
+			$values,
+			function ($key, $value) use ($replacer) {
+				return [$key, $replacer($value)];
+			},
+			function ($key, $value, $path) use ($keys) {
+				$path = Arrays::appendAll($path, [$key]);
+				return $path === $keys;
+			}
+		);
 	}
 
 	/**

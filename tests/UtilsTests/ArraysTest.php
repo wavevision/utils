@@ -443,6 +443,29 @@ class ArraysTest extends TestCase
 				}
 			)
 		);
+		$called = false;
+		Arrays::replaceByCallbackWithKeys(
+			[
+				1 => [
+					2,
+				],
+				0 => '0',
+				3 => [
+					6 => [
+						4 => 'hit',
+					],
+				],
+			],
+			function (): void {
+			},
+			function ($key, $value, $path) use (&$called): void {
+				if ($key === 4) {
+					$this->assertEquals([3, 6], $path);
+					$called = true;
+				}
+			}
+		);
+		$this->assertTrue($called);
 	}
 
 	public function testReplaceByPrefix(): void
@@ -527,6 +550,30 @@ class ArraysTest extends TestCase
 	public function testUnionValues(): void
 	{
 		$this->assertEquals([1, 2, 3, 4], Arrays::unionUniqueValues(['a' => 1, 2], ['a' => 3, 4, 2]));
+	}
+
+	public function testReplaceByPath(): void
+	{
+		$this->assertEquals(
+			['l1' => ['l2' => 'rewritten']],
+			Arrays::replaceByPath(
+				[
+					'l1' => [
+						'l2' => 'original',
+					],
+				],
+				['l1', 'l2'],
+				fn($value) => 'rewritten'
+			)
+		);
+		$this->assertEquals(
+			['l1' => ['l2' => ['original', 'rewritten']]],
+			Arrays::replaceByPath(
+				['l1' => ['l2' => ['original', 'original']]],
+				['l1', 'l2', 1],
+				fn($value) => 'rewritten'
+			)
+		);
 	}
 
 	/**
