@@ -9,15 +9,32 @@ use Wavevision\Utils\Tokenizer\Tokenizer;
 class TokenizerTest extends TestCase
 {
 
-	public function testGetStructureNameFromFileValid(): void
+	public function testClass(): void
 	{
 		$class = (new Tokenizer())->getStructureNameFromFile($this->getFile('<?php class Two {}'), [T_CLASS]);
 		$this->assertEquals('Two', $class->getName());
+	}
+
+	public function testInterface(): void
+	{
 		$interface = (new Tokenizer())->getStructureNameFromFile(
 			$this->getFile('<?php interface Two {}'),
 			[T_INTERFACE]
 		);
 		$this->assertEquals('Two', $interface->getName());
+	}
+
+	public function testTrait(): void
+	{
+		$class = (new Tokenizer())->getStructureNameFromFile(
+			$this->getFile('<?php trait Two { function f1(){ Two:class; } function f2(){}}'),
+			[T_CLASS]
+		);
+		$this->assertNull($class);
+	}
+
+	public function testClassWithNamespace(): void
+	{
 		$namespace = (new Tokenizer())->getStructureNameFromFile(
 			$this->getFile(
 				'<?php 

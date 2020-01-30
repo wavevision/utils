@@ -31,11 +31,18 @@ class Tokenizer
 				$matchedToken = $token[0];
 				$foundStructure = true;
 			}
-			if ($foundStructure && $foundWhitespace && $this->tokenMatchesType($token, T_STRING)) {
-				$structure = $token[1];
-				break;
+			if ($foundStructure && $foundWhitespace) {
+				if ($this->tokenMatchesType($token, T_STRING)) {
+					$structure = $token[1];
+					break;
+				}
+				if (!$this->tokenMatchesType($token, T_WHITESPACE)) {
+					return null;
+				}
 			}
-			$foundWhitespace = $this->tokenMatchesType($token, T_WHITESPACE);
+			if ($foundStructure) {
+				$foundWhitespace = $this->tokenMatchesType($token, T_WHITESPACE);
+			}
 		}
 		if ($structure === null) {
 			return null;
