@@ -4,6 +4,7 @@ namespace Wavevision\Utils\DOM;
 
 use Nette\SmartObject;
 use Nette\Utils\Html;
+use Wavevision\Utils\Strings;
 
 final class DataAttribute
 {
@@ -16,7 +17,7 @@ final class DataAttribute
 
 	public function __construct(string $name, ?string $prefix = null)
 	{
-		$this->currentName = $prefix ? "data-$prefix-$name" : "data-$name";
+		$this->currentName = Strings::camelCaseToDashCase($prefix ? "data-$prefix-$name" : "data-$name");
 		$this->currentValue = '';
 	}
 
