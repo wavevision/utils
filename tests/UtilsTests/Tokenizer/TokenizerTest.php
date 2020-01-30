@@ -26,11 +26,11 @@ class TokenizerTest extends TestCase
 
 	public function testTrait(): void
 	{
-		$class = (new Tokenizer())->getStructureNameFromFile(
-			$this->getFile('<?php trait Two { function f1(){ Two:class; } function f2(){}}'),
-			[T_CLASS]
-		);
+		$content = '<?php trait Two { function f1(){ Two:class; } function f2(){}}';
+		$class = (new Tokenizer())->getStructureNameFromFile($this->getFile($content), [T_CLASS]);
 		$this->assertNull($class);
+		$trait = (new Tokenizer())->getStructureNameFromFile($this->getFile($content), [T_TRAIT]);
+		$this->assertEquals('Two', $trait->getName());
 	}
 
 	public function testClassWithNamespace(): void

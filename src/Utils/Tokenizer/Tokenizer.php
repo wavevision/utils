@@ -15,51 +15,63 @@ class Tokenizer
 	 */
 	public function getStructureNameFromFile(string $fileName, array $tokens): ?TokenizeResult
 	{
-		$namespace = $structure = null;
-		$parseNamespace = $parseStructure = false;
-		$foundStructure = false;
+		$allTokens = token_get_all(FileSystem::read($fileName));
+		$result = $this->getStructure($allTokens, $tokens);
+		if ($result !== null) {
+			$namespace = $this->getNamespace($allTokens);
+			return new TokenizeResult($result[0], $result[1], $namespace);
+		}
+		return null;
+	}
+
+	/**
+	 * @param array<mixed> $allTokens
+	 * @param array<mixed> $specifiedTokens
+	 * @return array<mixed>
+	 */
+	private function getStructure(array $allTokens, array $specifiedTokens): ?array
+	{
 		$foundWhitespace = false;
 		$matchedToken = null;
-		foreach (token_get_all(FileSystem::read($fileName)) as $token) {
+		foreach ($allTokens as $token) {
+			if ($this->tokenMatchesOneType($token, $specifiedTokens)) {
+				$matchedToken = $token[0];
+			}
+			if ($matchedToken) {
+				if ($foundWhitespace) {
+					if ($this->tokenMatchesType($token, T_STRING)) {
+						return [$matchedToken, $token[1]];
+					}
+					if (!$this->tokenMatchesType($token, T_WHITESPACE)) {
+						return null;
+					}
+				}
+				$foundWhitespace = $this->tokenMatchesType($token, T_WHITESPACE);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param array<mixed> $allTokens
+	 */
+	private function getNamespace(array $allTokens): ?string
+	{
+		$namespace = null;
+		$parseNamespace = false;
+		foreach ($allTokens as $token) {
 			if ($this->tokenMatchesType($token, T_NAMESPACE)) {
 				$parseNamespace = true;
 			}
 			if ($parseNamespace) {
-				$this->parseNamespace($token, $namespace, $parseNamespace);
-			}
-			if ($this->tokenMatchesOneType($token, $tokens)) {
-				$matchedToken = $token[0];
-				$foundStructure = true;
-			}
-			if ($foundStructure && $foundWhitespace) {
-				if ($this->tokenMatchesType($token, T_STRING)) {
-					$structure = $token[1];
-					break;
-				}
-				if (!$this->tokenMatchesType($token, T_WHITESPACE)) {
-					return null;
+				if (is_array($token) && in_array($token[0], [T_STRING, T_NS_SEPARATOR])) {
+					$namespace .= $token[1];
+				} elseif ($token === ';') {
+					return $namespace;
 				}
 			}
-			if ($foundStructure) {
-				$foundWhitespace = $this->tokenMatchesType($token, T_WHITESPACE);
-			}
 		}
-		if ($structure === null) {
-			return null;
-		}
-		return new TokenizeResult((int)$matchedToken, (string)$structure, $namespace);
-	}
-
-	/**
-	 * @param mixed $token
-	 */
-	private function parseNamespace($token, ?string &$namespace, bool &$parseNamespace): void
-	{
-		if (is_array($token) && in_array($token[0], [T_STRING, T_NS_SEPARATOR])) {
-			$namespace .= $token[1];
-		} elseif ($token === ';') {
-			$parseNamespace = false;
-		}
+		return null;
 	}
 
 	/**
