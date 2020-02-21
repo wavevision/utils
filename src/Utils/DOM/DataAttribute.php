@@ -59,6 +59,16 @@ final class DataAttribute
 	}
 
 	/**
+	 * @param Html<mixed> $element
+	 * @return Html<mixed>
+	 */
+	public function remove(Html $element): Html
+	{
+		$element->removeAttribute($this->currentName);
+		return $element;
+	}
+
+	/**
 	 * @param mixed $value
 	 */
 	public function value($value = null): string

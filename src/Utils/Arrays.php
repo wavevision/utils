@@ -144,10 +144,10 @@ class Arrays extends NetteArrays
 	}
 
 	/**
-	 * @param iterable<mixed> $collection
+	 * @param mixed $collection
 	 * @return mixed
 	 */
-	public static function firstItem(iterable $collection)
+	public static function firstItem($collection)
 	{
 		return $collection[self::firstKey($collection)] ?? null;
 	}
@@ -356,17 +356,17 @@ class Arrays extends NetteArrays
 	}
 
 	/**
-	 * @param iterable<mixed> $collection
+	 * @param mixed $collection
 	 * @return mixed
 	 */
-	public static function lastItem(iterable $collection)
+	public static function lastItem($collection)
 	{
 		return $collection[self::lastKey($collection)] ?? null;
 	}
 
 	/**
 	 * @param iterable<mixed> $collection
-	 * @return mixed
+	 * @return int|string|null
 	 */
 	public static function lastKey(iterable $collection)
 	{

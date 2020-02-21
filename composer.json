@@ -43,7 +43,7 @@
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "^1.0",
     "mikey179/vfsstream": "^1.6",
-    "phing/phing": "^2.16",
+    "phing/phing": "^3.0-alpha3",
     "php-coveralls/php-coveralls": "^2.1",
     "php-mock/php-mock-phpunit": "^2.4",
     "phpstan/phpstan": "^0.12.3",

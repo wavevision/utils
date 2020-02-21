@@ -32,6 +32,14 @@ class DataAttributeTest extends TestCase
 		$this->assertEquals('data-prefix-test', $this->createDataAttribute('prefix')->name());
 	}
 
+	public function testRemove(): void
+	{
+		$attribute = $this->createDataAttribute();
+		$element = Html::el();
+		$this->assertTrue($attribute->assign($element)->getAttribute($attribute->name()) === '');
+		$this->assertNull($attribute->remove($element)->getAttribute($attribute->name()));
+	}
+
 	public function testValue(): void
 	{
 		$this->assertEquals('something', $this->createDataAttribute()->value('something'));
