@@ -54,6 +54,19 @@ class ArraysTest extends TestCase
 		$this->assertEquals([], Arrays::diff(['one', 'two'], [2 => 'two'], false));
 	}
 
+	public function testEach(): void
+	{
+		$one = [];
+		$two = ['one', 'two'];
+		Arrays::each(
+			$two,
+			function (string $item) use (&$one): void {
+				$one[] = $item;
+			}
+		);
+		$this->assertEquals($one, $two);
+	}
+
 	public function testExtractObjectIds(): void
 	{
 		$o1 = new \stdClass();

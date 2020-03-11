@@ -103,6 +103,17 @@ class Arrays extends NetteArrays
 	}
 
 	/**
+	 * @param iterable<mixed> $collection
+	 * @param callable(mixed): mixed $callback
+	 */
+	public static function each(iterable $collection, callable $callback): void
+	{
+		foreach ($collection as $item) {
+			$callback($item);
+		}
+	}
+
+	/**
 	 * @param iterable<object> $collection
 	 * @return array<int|string>
 	 */
