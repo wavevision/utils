@@ -2,11 +2,12 @@
 
 namespace Wavevision\Utils\DOM;
 
+use JsonSerializable;
 use Nette\SmartObject;
 use Nette\Utils\Html;
 use Wavevision\Utils\Strings;
 
-final class DataAttribute
+final class DataAttribute implements JsonSerializable
 {
 
 	use SmartObject;
@@ -27,6 +28,14 @@ final class DataAttribute
 	}
 
 	/**
+	 * @return array<string, string>
+	 */
+	public function jsonSerialize(): array
+	{
+		return $this->asArray();
+	}
+
+	/**
 	 * @param mixed $value
 	 * @return array<string, string>
 	 */
@@ -37,11 +46,12 @@ final class DataAttribute
 
 	/**
 	 * @param Html<mixed> $element
+	 * @param mixed $value
 	 * @return Html<mixed>
 	 */
-	public function assign(Html $element): Html
+	public function assign(Html $element, $value = null): Html
 	{
-		$element->setAttribute($this->currentName, $this->currentValue);
+		$element->setAttribute($this->currentName, $this->value($value));
 		return $element;
 	}
 
@@ -51,6 +61,22 @@ final class DataAttribute
 	public function asString($value = null): string
 	{
 		return sprintf('%s="%s"', $this->currentName, $this->value($value));
+	}
+
+	/**
+	 * @param Html<mixed> $element
+	 */
+	public function get(Html $element): ?string
+	{
+		return $element->getAttribute($this->currentName);
+	}
+
+	/**
+	 * @param Html<mixed> $element
+	 */
+	public function has(Html $element): bool
+	{
+		return $this->get($element) !== null;
 	}
 
 	public function name(): string

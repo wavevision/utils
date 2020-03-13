@@ -3,11 +3,17 @@
 namespace Wavevision\UtilsTests\DOM;
 
 use Nette\Utils\Html;
+use Nette\Utils\Json;
 use PHPUnit\Framework\TestCase;
 use Wavevision\Utils\DOM\DataAttribute;
 
 class DataAttributeTest extends TestCase
 {
+
+	public function testJsonSerialize(): void
+	{
+		$this->assertEquals('{"data-test":""}', Json::encode($this->createDataAttribute()));
+	}
 
 	public function testAsArray(): void
 	{
@@ -22,9 +28,18 @@ class DataAttributeTest extends TestCase
 
 	public function testAssign(): void
 	{
-		$element = Html::el();
-		$this->createDataAttribute()->assign($element);
-		$this->assertSame('', $element->getAttribute('data-test'));
+		$attribute = $this->createDataAttribute();
+		$this->assertSame('', $attribute->get($attribute->assign(Html::el())));
+	}
+
+	public function testGet(): void
+	{
+		$this->assertNull($this->createDataAttribute()->get(Html::el()));
+	}
+
+	public function testHas(): void
+	{
+		$this->assertFalse($this->createDataAttribute()->has(Html::el()));
 	}
 
 	public function testName(): void
@@ -36,8 +51,8 @@ class DataAttributeTest extends TestCase
 	{
 		$attribute = $this->createDataAttribute();
 		$element = Html::el();
-		$this->assertTrue($attribute->assign($element)->getAttribute($attribute->name()) === '');
-		$this->assertNull($attribute->remove($element)->getAttribute($attribute->name()));
+		$this->assertEquals('', $attribute->get($attribute->assign($element)));
+		$this->assertNull($attribute->get($attribute->remove($element)));
 	}
 
 	public function testValue(): void
