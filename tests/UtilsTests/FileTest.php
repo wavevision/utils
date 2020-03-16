@@ -53,4 +53,18 @@ class FileTest extends TestCase
 		$file->getContents();
 	}
 
+	public function testWrite(): void
+	{
+		$file = File::open(__DIR__ . '/out.txt', 'w');
+		$this->assertEquals(4, $file->write('test'));
+	}
+
+	public function testWriteFail(): void
+	{
+		$file = File::open(__DIR__ . '/out.txt', 'w');
+		$file->close();
+		$this->expectException(InvalidState::class);
+		$file->write('asd');
+	}
+
 }

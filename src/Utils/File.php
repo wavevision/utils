@@ -60,6 +60,15 @@ class File
 		rewind($this->resource);
 	}
 
+	public function write(string $content): int
+	{
+		$result = @fwrite($this->resource, $content);
+		if ($result === false) {
+			throw new InvalidState(self::getLastError());
+		}
+		return $result;
+	}
+
 	public function getContents(): string
 	{
 		$result = @stream_get_contents($this->resource);
