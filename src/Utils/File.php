@@ -55,6 +55,20 @@ class File
 		return null;
 	}
 
+	public function rewind(): void
+	{
+		rewind($this->resource);
+	}
+
+	public function getContents(): string
+	{
+		$result = @stream_get_contents($this->resource);
+		if ($result === false) {
+			throw new InvalidState(self::getLastError());
+		}
+		return $result;
+	}
+
 	public function close(): void
 	{
 		fclose($this->resource);

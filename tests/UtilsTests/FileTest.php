@@ -36,4 +36,21 @@ class FileTest extends TestCase
 		$file->putCsv([]);
 	}
 
+	public function testRewind(): void
+	{
+		$file = File::open(__DIR__ . '/file.txt', 'r');
+		$this->assertEquals('hello', $file->getContents());
+		$this->assertEquals('', $file->getContents());
+		$file->rewind();
+		$this->assertEquals('hello', $file->getContents());
+	}
+
+	public function testGetContentsFail(): void
+	{
+		$file = File::open(__DIR__ . '/file.txt', 'r');
+		$file->close();
+		$this->expectException(InvalidState::class);
+		$file->getContents();
+	}
+
 }
