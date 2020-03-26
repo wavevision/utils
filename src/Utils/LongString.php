@@ -27,6 +27,11 @@ class LongString
 		return $this->string();
 	}
 
+	public static function create(string ...$strings): self
+	{
+		return new self(...$strings);
+	}
+
 	public function addString(string $string): self
 	{
 		$this->strings[] = $string;

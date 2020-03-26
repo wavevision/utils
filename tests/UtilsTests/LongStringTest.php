@@ -31,7 +31,7 @@ class LongStringTest extends TestCase
 	{
 		$this->assertSame(
 			'.',
-			(new LongString(''))
+			LongString::create('')
 				->setGlue('.')
 				->getGlue()
 		);
