@@ -17,6 +17,20 @@ class Objects
 		return $object->{self::name('get', $property)}();
 	}
 
+	/**
+	 * @return mixed
+	 */
+	public static function getNested(object $object, string ...$properties)
+	{
+		foreach ($properties as $property) {
+			$object = self::get($object, $property);
+			if (!is_object($object)) {
+				return $object;
+			}
+		}
+		return $object;
+	}
+
 	public static function getClassName(object $object): string
 	{
 		return Strings::getClassName(get_class($object));
@@ -75,8 +89,12 @@ class Objects
 	public static function toArray(object $object, array $keys, array $extra = []): array
 	{
 		$values = [];
-		foreach ($keys as $name) {
-			$values[$name] = self::get($object, $name);
+		foreach ($keys as $key => $name) {
+			if (is_array($name)) {
+				$values[is_string($key) ? $key : implode('.', $name)] = self::getNested($object, ...$name);
+			} else {
+				$values[$name] = self::get($object, $name);
+			}
 		}
 		foreach ($extra as $key => $value) {
 			$values[$key] = is_callable($value) ? $value(self::get($object, $key)) : $value;

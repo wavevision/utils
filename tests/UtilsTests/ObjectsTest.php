@@ -73,19 +73,28 @@ class ObjectsTest extends TestCase
 	public function testToArray(): void
 	{
 		$mock = $this->getMockBuilder(stdClass::class)
-			->addMethods(['getYoMama', 'getYo'])
+			->addMethods(['getYoMama', 'getYo', 'getN1', 'getPope'])
 			->getMock();
+		$n2Mock = $this->getMockBuilder(stdClass::class)
+			->addMethods(['getN2'])
+			->getMock();
+		$n2Mock->method('getN2')->willReturn('42');
 		$mock->method('getYoMama')->willReturn('chewbacca');
 		$mock->method('getYo')->willReturn('yo');
+		$mock->method('getN1')->willReturn($n2Mock);
+		$mock->method('getPope')->willReturn(null);
 		$this->assertEquals(
 			[
 				'yoMama' => 'chewbacca',
 				'yoPapa' => 'kenobi',
 				'yo' => 'yo',
+				'n1.n2' => '42',
+				'n12' => '42',
+				'pope.of.nope' => null,
 			],
 			Objects::toArray(
 				$mock,
-				['yoMama'],
+				['yoMama', ['n1', 'n2'], 'n12' => ['n1', 'n2'], ['pope', 'of', 'nope']],
 				[
 					'yoPapa' => 'kenobi',
 					'yo' => function ($yo) {
@@ -94,6 +103,12 @@ class ObjectsTest extends TestCase
 				]
 			)
 		);
+	}
+
+	public function testGetNested(): void
+	{
+		$object = new stdClass();
+		$this->assertEquals($object, Objects::getNested($object));
 	}
 
 	public function testCopyAttributes(): void
