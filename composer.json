@@ -41,7 +41,7 @@
     "php": ">=7.4"
   },
   "require-dev": {
-    "jakub-onderka/php-parallel-lint": "^1.0",
+    "php-parallel-lint/php-parallel-lint": "^1.0",
     "mikey179/vfsstream": "^1.6",
     "phing/phing": "^3.0-alpha3",
     "php-coveralls/php-coveralls": "^2.1",

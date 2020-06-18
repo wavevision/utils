@@ -32,6 +32,11 @@ class StringsTest extends TestCase
 		$this->assertEquals('some-string', Strings::camelCaseToDashCase('someString'));
 	}
 
+	public function testCamelCaseToSnakeCase(): void
+	{
+		$this->assertEquals('some_other_string', Strings::camelCaseToSnakeCase('someOtherString'));
+	}
+
 	public function testContains(): void
 	{
 		$this->assertTrue(Strings::contains('aBc', 'B'));
@@ -107,4 +112,5 @@ class StringsTest extends TestCase
 	{
 		$this->assertEquals(Strings::utf2win('aei'), Strings::win2utf('aei'));
 	}
+
 }

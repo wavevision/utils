@@ -26,6 +26,11 @@ class Strings extends NetteStrings
 		return strtolower(self::replace($s, '/([a-zA-Z])(?=[A-Z])/', '$1-'));
 	}
 
+	public static function camelCaseToSnakeCase(string $s): string
+	{
+		return self::replace(self::camelCaseToDashCase($s), '/-/', '_');
+	}
+
 	public static function contains(string $haystack, string $needle, bool $caseSensitive = true): bool
 	{
 		if ($caseSensitive === true) {
@@ -131,4 +136,5 @@ class Strings extends NetteStrings
 	{
 		return new IOException("Unable to convert '$source' to '$target' encoding.");
 	}
+
 }
