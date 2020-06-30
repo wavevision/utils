@@ -45,6 +45,15 @@ final class DataAttribute implements JsonSerializable
 	}
 
 	/**
+	 * @param mixed $value
+	 * @return array<string>
+	 */
+	public function asTuple($value = null): array
+	{
+		return [$this->currentName, $this->value($value)];
+	}
+
+	/**
 	 * @param Html<mixed> $element
 	 * @param mixed $value
 	 * @return Html<mixed>

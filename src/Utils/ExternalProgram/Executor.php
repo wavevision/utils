@@ -2,8 +2,12 @@
 
 namespace Wavevision\Utils\ExternalProgram;
 
+use Nette\StaticClass;
+
 class Executor
 {
+
+	use StaticClass;
 
 	public static function executeUnchecked(string $command): Result
 	{

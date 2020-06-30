@@ -34,7 +34,10 @@
     "sort-packages": true
   },
   "require": {
+    "ext-fileinfo": "*",
     "ext-iconv": "*",
+    "ext-json": "*",
+    "ext-zip": "*",
     "flow/jsonpath": "^0.4.0",
     "nette/finder": "^2.5",
     "nette/utils": "^3.1",
