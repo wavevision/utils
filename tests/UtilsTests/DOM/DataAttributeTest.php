@@ -26,6 +26,11 @@ class DataAttributeTest extends TestCase
 		$this->assertEquals('data-prefix-test=""', (string)$this->createDataAttribute('prefix'));
 	}
 
+	public function testAsTuple(): void
+	{
+		$this->assertEquals(['data-test', ''], $this->createDataAttribute()->asTuple());
+	}
+
 	public function testAssign(): void
 	{
 		$attribute = $this->createDataAttribute();

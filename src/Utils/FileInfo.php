@@ -16,6 +16,8 @@ class FileInfo
 
 	private string $baseName;
 
+	private string $dirName;
+
 	private string $extension;
 
 	private string $contentType;
@@ -31,6 +33,7 @@ class FileInfo
 		}
 		$this->pathName = $pathName;
 		$this->baseName = basename($pathName);
+		$this->dirName = dirname($pathName);
 		$this->extension = pathinfo($pathName, PATHINFO_EXTENSION);
 		$this->contentType = (string)(new finfo(FILEINFO_MIME_TYPE))->file($pathName);
 		$this->size = (int)filesize($pathName);
@@ -42,14 +45,22 @@ class FileInfo
 		return $this->pathName;
 	}
 
-	public function getBaseName(): string
+	public function getBaseName(bool $withoutExtension = false): string
 	{
+		if ($withoutExtension) {
+			return str_replace($this->getExtension(true), '', $this->baseName);
+		}
 		return $this->baseName;
 	}
 
-	public function getExtension(): string
+	public function getDirName(): string
 	{
-		return $this->extension;
+		return $this->dirName;
+	}
+
+	public function getExtension(bool $withDot = false): string
+	{
+		return $withDot ? '.' . $this->extension : $this->extension;
 	}
 
 	public function getContentType(): string

@@ -2,8 +2,12 @@
 
 namespace Wavevision\Utils\ExternalProgram;
 
+use Nette\SmartObject;
+
 class Result
 {
+
+	use SmartObject;
 
 	private string $command;
 
