@@ -23,6 +23,7 @@ The package contains useful classes for:
 - [ContentTypes](./src/Utils/ContentTypes.php) – format extensions and filenames for content types
 - [DOM](./src/Utils/DOM) – create and format data attributes for HTML elements
 - [ExternalProgram](./src/Utils/ExternalProgram/Executor.php) – simple external command runner
+- [FileInfo](./src/Utils/FileInfo.php) – get file info (basename, dirname, extension etc.)
 - [Finder](./src/Utils/Finder.php) – adds sorting to [nette/finder](https://github.com/nette/finder)
 - [ImageInfo](./src/Utils/ImageInfo.php) – get image content type and size
 - [Json](./src/Utils/Json.php) – JSON pretty encoder with PHP and JavaScript indents
@@ -33,3 +34,4 @@ The package contains useful classes for:
 - [Strings](./src/Utils/Strings.php) – string helpers (encode, transform etc.)
 - [Tokenizer](./src/Utils/Tokenizer/Tokenizer.php) – get structure from file (e.g. a class)
 - [Validators](./src/Utils/Validators.php) – validate Czech and Slovak numbers (phone, personal, business)
+- [Zip](./src/Utils/Zip) – simple ZIP archive helper (compress, extract)
