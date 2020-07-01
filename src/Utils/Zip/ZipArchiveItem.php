@@ -4,7 +4,7 @@ namespace Wavevision\Utils\Zip;
 
 use Nette\SmartObject;
 
-final class ZipArchiveFile
+final class ZipArchiveItem
 {
 
 	use SmartObject;
