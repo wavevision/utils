@@ -94,10 +94,8 @@ class ZipArchive
 	{
 		$deep = $depth > self::INITIAL_DEPTH;
 		$dir = $item->getName();
-		if ($deep) {
-			$parents = [...$parents, $dir];
-			$this->zip->addEmptyDir(Path::join(...$parents));
-		}
+		$parents = [...$parents, $dir];
+		$this->zip->addEmptyDir($deep ? Path::join(...$parents) : $dir);
 		/** @var SplFileInfo $subItem */
 		foreach (Finder::find('*')->in($item->getPath()) as $subItem) {
 			$path = $subItem->getPathname();
