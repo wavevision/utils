@@ -4,7 +4,9 @@ namespace Wavevision\Utils\Zip;
 
 use Nette\FileNotFoundException;
 use Nette\SmartObject;
+use SplFileInfo;
 use Wavevision\Utils\FileInfo;
+use Wavevision\Utils\Finder;
 use Wavevision\Utils\Path;
 use ZipArchive as Zip;
 
@@ -13,25 +15,27 @@ class ZipArchive
 
 	use SmartObject;
 
+	private const INITIAL_DEPTH = 1;
+
 	/**
-	 * @var ZipArchiveFile[]
+	 * @var ZipArchiveItem[]
 	 */
-	private array $files;
+	private array $items;
 
 	private string $path;
 
 	private Zip $zip;
 
-	public function __construct(string $path, ZipArchiveFile ...$files)
+	public function __construct(string $path, ZipArchiveItem ...$items)
 	{
-		$this->files = $files;
+		$this->items = $items;
 		$this->path = $path;
 		$this->zip = new Zip();
 	}
 
-	public function addFile(ZipArchiveFile $file): self
+	public function addItem(ZipArchiveItem $item): self
 	{
-		$this->files[] = $file;
+		$this->items[] = $item;
 		return $this;
 	}
 
@@ -43,8 +47,13 @@ class ZipArchive
 
 	public function compress(): self
 	{
-		foreach ($this->files as $file) {
-			$this->zip->addFile($this->getFilePath($file), $file->getName());
+		foreach ($this->items as $item) {
+			$path = $this->getItemPath($item);
+			if (is_dir($path)) {
+				$this->addDir($item, self::INITIAL_DEPTH);
+			} else {
+				$this->zip->addFile($path, $item->getName());
+			}
 		}
 		return $this->close();
 	}
@@ -78,17 +87,40 @@ class ZipArchive
 		return $this;
 	}
 
+	/**
+	 * @param string[] $parents
+	 */
+	private function addDir(ZipArchiveItem $item, int $depth, array $parents = []): void
+	{
+		$deep = $depth > self::INITIAL_DEPTH;
+		$dir = $item->getName();
+		if ($deep) {
+			$parents = [...$parents, $dir];
+			$this->zip->addEmptyDir(Path::join(...$parents));
+		}
+		/** @var SplFileInfo $subItem */
+		foreach (Finder::find('*')->in($item->getPath()) as $subItem) {
+			$path = $subItem->getPathname();
+			if ($subItem->isDir()) {
+				$this->addDir(new ZipArchiveItem($path), $depth + 1, $parents);
+			} else {
+				$name = $subItem->getFilename();
+				$this->zip->addFile($path, $deep ? Path::join(...[...$parents, $name]) : $name);
+			}
+		}
+	}
+
 	private function getExtractDir(): string
 	{
 		$fileInfo = new FileInfo($this->getPath());
 		return Path::join($fileInfo->getDirName(), $fileInfo->getBaseName(true));
 	}
 
-	private function getFilePath(ZipArchiveFile $file): string
+	private function getItemPath(ZipArchiveItem $item): string
 	{
-		$path = $file->getPath();
+		$path = $item->getPath();
 		if (!file_exists($path)) {
-			throw new FileNotFoundException("Zip archive file '$path' not found.");
+			throw new FileNotFoundException("Zip archive item '$path' not found.");
 		}
 		return $path;
 	}
