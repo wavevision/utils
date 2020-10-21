@@ -3,6 +3,9 @@
 namespace Wavevision\Utils;
 
 use Nette\StaticClass;
+use function is_file;
+use function touch;
+use function unlink;
 
 class Maintenance
 {

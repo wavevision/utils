@@ -6,6 +6,8 @@ use ArrayIterator;
 use Iterator;
 use Nette\Utils\Finder as NetteFinder;
 use SplFileInfo;
+use function is_callable;
+use function iterator_to_array;
 
 class Finder extends NetteFinder
 {

@@ -3,6 +3,7 @@
 namespace Wavevision\Utils\ExternalProgram;
 
 use Nette\SmartObject;
+use function implode;
 
 class Result
 {

@@ -4,6 +4,13 @@ namespace Wavevision\Utils\Tokenizer;
 
 use Nette\SmartObject;
 use Nette\Utils\FileSystem;
+use function in_array;
+use function is_array;
+use function token_get_all;
+use const T_NAMESPACE;
+use const T_NS_SEPARATOR;
+use const T_STRING;
+use const T_WHITESPACE;
 
 class Tokenizer
 {

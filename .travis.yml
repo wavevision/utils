@@ -15,7 +15,7 @@ before_script:
 
 jobs:
   include:
-    - script: composer phing ci
+    - script: make ci
 
 cache:
   directories:

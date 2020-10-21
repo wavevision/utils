@@ -6,6 +6,7 @@ use JsonSerializable;
 use Nette\SmartObject;
 use Nette\Utils\Html;
 use Wavevision\Utils\Strings;
+use function sprintf;
 
 final class DataAttribute implements JsonSerializable
 {
@@ -20,11 +21,6 @@ final class DataAttribute implements JsonSerializable
 	{
 		$this->currentName = Strings::camelCaseToDashCase($prefix ? "data-$prefix-$name" : "data-$name");
 		$this->currentValue = '';
-	}
-
-	public function __toString(): string
-	{
-		return $this->asString();
 	}
 
 	/**
@@ -112,6 +108,11 @@ final class DataAttribute implements JsonSerializable
 			$this->currentValue = (string)$value;
 		}
 		return $this->currentValue;
+	}
+
+	public function __toString(): string
+	{
+		return $this->asString();
 	}
 
 }

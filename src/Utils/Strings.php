@@ -5,6 +5,20 @@ namespace Wavevision\Utils;
 use Nette\InvalidArgumentException;
 use Nette\IOException;
 use Nette\Utils\Strings as NetteStrings;
+use function count;
+use function iconv;
+use function lcfirst;
+use function preg_match;
+use function preg_replace;
+use function rtrim;
+use function str_replace;
+use function stripos;
+use function strlen;
+use function strrchr;
+use function strtolower;
+use function strtr;
+use function substr;
+use function ucwords;
 
 class Strings extends NetteStrings
 {

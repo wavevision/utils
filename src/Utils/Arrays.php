@@ -8,6 +8,28 @@ use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Arrays as NetteArrays;
+use function abs;
+use function array_key_exists;
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function array_pop;
+use function array_push;
+use function array_reduce;
+use function array_slice;
+use function array_unique;
+use function array_values;
+use function count;
+use function end;
+use function is_array;
+use function is_int;
+use function is_string;
+use function key;
+use function key_exists;
+use function sort;
+use function str_replace;
+use function strpos;
+use function trim;
 
 class Arrays extends NetteArrays
 {

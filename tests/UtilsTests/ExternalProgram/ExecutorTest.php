@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Wavevision\Utils\ExternalProgram\Executor;
 use Wavevision\Utils\ExternalProgram\Failure;
 use Wavevision\Utils\ExternalProgram\Result;
+use function sprintf;
 
 class ExecutorTest extends TestCase
 {
@@ -25,8 +26,8 @@ class ExecutorTest extends TestCase
 
 	public function testExecuteFailedCommand(): void
 	{
+		$command = __DIR__ . '/error.sh';
 		try {
-			$command = __DIR__ . '/error.sh';
 			Executor::execute($command);
 		} catch (Failure $failure) {
 			$this->assertEquals(

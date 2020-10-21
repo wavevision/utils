@@ -3,6 +3,14 @@
 namespace Wavevision\Utils;
 
 use Nette\SmartObject;
+use function error_get_last;
+use function fclose;
+use function fgetcsv;
+use function fopen;
+use function fputcsv;
+use function fwrite;
+use function rewind;
+use function stream_get_contents;
 
 class File
 {
@@ -13,6 +21,14 @@ class File
 	 * @var resource
 	 */
 	private $resource;
+
+	/**
+	 * @param resource $resource
+	 */
+	private function __construct($resource)
+	{
+		$this->resource = $resource;
+	}
 
 	public static function open(string $filename, string $mode): self
 	{
@@ -81,14 +97,6 @@ class File
 	public function close(): void
 	{
 		fclose($this->resource);
-	}
-
-	/**
-	 * @param resource $resource
-	 */
-	private function __construct($resource)
-	{
-		$this->resource = $resource;
 	}
 
 	private static function getLastError(): string

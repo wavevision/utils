@@ -6,6 +6,16 @@ use finfo;
 use Nette\IOException;
 use Nette\SmartObject;
 use Nette\Utils\DateTime;
+use function basename;
+use function dirname;
+use function filemtime;
+use function filesize;
+use function is_file;
+use function pathinfo;
+use function sprintf;
+use function str_replace;
+use const FILEINFO_MIME_TYPE;
+use const PATHINFO_EXTENSION;
 
 class FileInfo
 {

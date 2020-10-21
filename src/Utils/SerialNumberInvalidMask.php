@@ -2,7 +2,9 @@
 
 namespace Wavevision\Utils;
 
-class SerialNumberInvalidMask extends \Exception
+use Exception;
+
+class SerialNumberInvalidMask extends Exception
 {
 
 }

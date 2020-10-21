@@ -3,15 +3,20 @@
 namespace Wavevision\Utils;
 
 use Nette\StaticClass;
+use function count;
+use function date;
+use function sprintf;
+use function str_replace;
+use function strlen;
 
 class SerialNumber
 {
 
+	use StaticClass;
+
 	public const YEAR_REGEXP = '/(\%Y{2}\%|\%Y{4}\%)/';
 
 	public const NUMBER_REGEXP = '/(\%X{1,}\%)/';
-
-	use StaticClass;
 
 	public static function generate(string $mask, int $nextNumber): string
 	{

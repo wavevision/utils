@@ -4,18 +4,29 @@ namespace Wavevision\Utils;
 
 use Nette\InvalidStateException;
 use Nette\SmartObject;
+use function array_map;
+use function array_merge;
+use function implode;
+use function realpath;
+use function rtrim;
+use function sprintf;
 
 class Path
 {
 
-	public const DELIMITER = '/';
-
 	use SmartObject;
+
+	public const DELIMITER = '/';
 
 	/**
 	 * @var array<string|null>
 	 */
 	private array $path;
+
+	private function __construct(?string ...$path)
+	{
+		$this->path = $path;
+	}
 
 	public static function create(?string ...$path): self
 	{
@@ -67,11 +78,6 @@ class Path
 	public function __toString(): string
 	{
 		return self::join(...$this->path);
-	}
-
-	private function __construct(?string ...$path)
-	{
-		$this->path = $path;
 	}
 
 }

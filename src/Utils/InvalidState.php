@@ -2,7 +2,9 @@
 
 namespace Wavevision\Utils;
 
-class InvalidState extends \Exception
+use Exception;
+
+class InvalidState extends Exception
 {
 
 }

@@ -3,6 +3,8 @@
 namespace Wavevision\Utils\ExternalProgram;
 
 use Nette\StaticClass;
+use function exec;
+use function sprintf;
 
 class Executor
 {
