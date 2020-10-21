@@ -46,7 +46,6 @@
   "require-dev": {
     "mikey179/vfsstream": "^1.6",
     "php-coveralls/php-coveralls": "^2.1",
-    "php-mock/php-mock-phpunit": "^2.4",
     "phpunit/phpunit": "^9.4",
     "wavevision/coding-standard": "^5.2"
   },
