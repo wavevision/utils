@@ -5,6 +5,9 @@ namespace Wavevision\Utils;
 use Nette\StaticClass;
 use Nette\Utils\Json as NetteJson;
 use Nette\Utils\JsonException;
+use function preg_replace_callback;
+use function str_repeat;
+use function strlen;
 
 class Json
 {
@@ -29,4 +32,5 @@ class Json
 			NetteJson::encode($value, NetteJson::PRETTY)
 		);
 	}
+
 }

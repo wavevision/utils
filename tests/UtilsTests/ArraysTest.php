@@ -2,11 +2,17 @@
 
 namespace Wavevision\UtilsTests;
 
+use ArrayIterator;
 use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Utils\ArrayHash;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use Wavevision\Utils\Arrays;
+use function array_key_first;
+use function is_int;
+use function is_string;
+use function reset;
 
 /**
  * @covers \Wavevision\Utils\Arrays
@@ -69,19 +75,19 @@ class ArraysTest extends TestCase
 
 	public function testExtractObjectIds(): void
 	{
-		$o1 = new \stdClass();
+		$o1 = new stdClass();
 		$o1->id = 1;
-		$o2 = new \stdClass();
+		$o2 = new stdClass();
 		$o2->id = 'some-id';
-		$o3 = new \stdClass();
+		$o3 = new stdClass();
 		$this->assertEquals([1, 'some-id', null], Arrays::extractObjectIds([$o1, $o2, $o3]));
 	}
 
 	public function testExtractValuesFromObject(): void
 	{
-		$o1 = new \stdClass();
+		$o1 = new stdClass();
 		$o1->something = 'someValue';
-		$o2 = $this->getMockBuilder(\stdClass::class)
+		$o2 = $this->getMockBuilder(stdClass::class)
 			->addMethods(['getSomething'])
 			->getMock();
 		$o2->method('getSomething')
@@ -99,7 +105,7 @@ class ArraysTest extends TestCase
 
 	public function testFirstItem(): void
 	{
-		$item = new \stdClass();
+		$item = new stdClass();
 		$this->assertSame($item, Arrays::firstItem([$item]));
 	}
 
@@ -117,7 +123,7 @@ class ArraysTest extends TestCase
 	public function testLastKey(): void
 	{
 		$this->assertEquals(2, Arrays::lastKey([1 => 1, 2 => 2]));
-		$iterable = new \ArrayIterator(['one', 'two']);
+		$iterable = new ArrayIterator(['one', 'two']);
 		$this->assertEquals(1, Arrays::lastKey($iterable));
 	}
 
@@ -278,21 +284,21 @@ class ArraysTest extends TestCase
 	public function testMapCollection(): void
 	{
 		$this->mapCollection([1]);
-		$class = new \stdClass();
+		$class = new stdClass();
 		$class->a = 1;
 		$this->mapCollection($class);
 	}
 
 	public function testMapIterable(): void
 	{
-		$class = new \stdClass();
+		$class = new stdClass();
 		$class->id = 1;
 		$this->assertEquals(
 			[0 => '1/0/0'],
 			Arrays::mapIterable(
 				[$class],
 				function (
-					\stdClass $item,
+					stdClass $item,
 					int $key,
 					array $collection
 				): string {

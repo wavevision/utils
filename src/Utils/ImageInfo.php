@@ -3,6 +3,7 @@
 namespace Wavevision\Utils;
 
 use Nette\InvalidStateException;
+use function getimagesize;
 
 class ImageInfo
 {
@@ -12,6 +13,13 @@ class ImageInfo
 	private int $height;
 
 	private string $contentType;
+
+	private function __construct(int $width, int $height, string $contentType)
+	{
+		$this->width = $width;
+		$this->height = $height;
+		$this->contentType = $contentType;
+	}
 
 	public static function create(string $pathname): self
 	{
@@ -35,13 +43,6 @@ class ImageInfo
 	public function getHeight(): int
 	{
 		return $this->height;
-	}
-
-	private function __construct(int $width, int $height, string $contentType)
-	{
-		$this->width = $width;
-		$this->height = $height;
-		$this->contentType = $contentType;
 	}
 
 }

@@ -156,4 +156,5 @@ class Encoding
 	public const WIN_PATTERN = '/[\x7F-\x9F\xBC]/';
 
 	public const WINDOWS_1250 = 'WINDOWS-1250';
+
 }

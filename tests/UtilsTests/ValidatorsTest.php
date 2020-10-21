@@ -48,4 +48,5 @@ class ValidatorsTest extends TestCase
 		$this->assertFalse(Validators::isRgbColor('abc'));
 		$this->assertTrue(Validators::isRgbColor('255,255,255'));
 	}
+
 }

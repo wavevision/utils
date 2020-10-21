@@ -3,6 +3,7 @@
 namespace Wavevision\Utils\Zip;
 
 use Nette\SmartObject;
+use function basename;
 
 final class ZipArchiveItem
 {

@@ -16,4 +16,5 @@ class JsonTest extends TestCase
 		$this->assertIsString(Json::encodePretty([1 => 'one']));
 		$this->assertIsString(Json::encodePretty(null, Json::INDENT_JS));
 	}
+
 }

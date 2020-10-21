@@ -9,6 +9,10 @@ use Wavevision\Utils\FileInfo;
 use Wavevision\Utils\Finder;
 use Wavevision\Utils\Path;
 use ZipArchive as Zip;
+use function basename;
+use function file_exists;
+use function is_dir;
+use function is_file;
 
 class ZipArchive
 {

@@ -3,6 +3,12 @@
 namespace Wavevision\Utils;
 
 use Nette\Utils\Validators as NetteValidators;
+use function checkdate;
+use function implode;
+use function preg_match;
+use function str_repeat;
+use function str_replace;
+use function trim;
 
 class Validators extends NetteValidators
 {
@@ -85,4 +91,5 @@ class Validators extends NetteValidators
 		// phpcs:enable
 		return preg_match($pattern, $color) === 1;
 	}
+
 }

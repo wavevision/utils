@@ -3,6 +3,14 @@
 namespace Wavevision\Utils;
 
 use Nette\SmartObject;
+use function get_class;
+use function implode;
+use function is_array;
+use function is_callable;
+use function is_object;
+use function is_string;
+use function method_exists;
+use function ucfirst;
 
 class Objects
 {

@@ -4,6 +4,9 @@ namespace Wavevision\Utils;
 
 use Nette\IOException;
 use Nette\StaticClass;
+use function ini_get;
+use function min;
+use function php_sapi_name;
 
 class Server
 {
@@ -36,4 +39,5 @@ class Server
 	{
 		return php_sapi_name() === 'cli';
 	}
+
 }

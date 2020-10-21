@@ -2,9 +2,15 @@
 
 namespace Wavevision\UtilsTests;
 
+use ArrayIterator;
+use Iterator;
 use org\bovigo\vfs\vfsStream as fs;
 use PHPUnit\Framework\TestCase;
+use SplFileInfo;
 use Wavevision\Utils\Finder;
+use function file_put_contents;
+use function time;
+use function touch;
 
 /**
  * @covers \Wavevision\Utils\Finder
@@ -15,23 +21,23 @@ class FinderTest extends TestCase
 	public function testGetIterator(): void
 	{
 		$finder = $this->getFinder();
-		$this->assertInstanceOf(\Iterator::class, $finder->getIterator());
+		$this->assertInstanceOf(Iterator::class, $finder->getIterator());
 		$finder->setSort(
 			function (): int {
 				return 0;
 			}
 		);
-		$this->assertInstanceOf(\ArrayIterator::class, $finder->getIterator());
+		$this->assertInstanceOf(ArrayIterator::class, $finder->getIterator());
 	}
 
 	public function testSortByMTime(): void
 	{
 		$files = [];
-		/** @var \SplFileInfo $file */
+		/** @var SplFileInfo $file */
 		foreach ($this->getFinder()->sortByMTime() as $file) {
 			$files[] = $file->getFilename();
 		}
-		/** @var \SplFileInfo $file */
+		/** @var SplFileInfo $file */
 		foreach ($this->getFinder()->sortByMTime(Finder::ORDER_ASC) as $file) {
 			$files[] = $file->getFilename();
 		}
@@ -41,11 +47,11 @@ class FinderTest extends TestCase
 	public function testSortByName(): void
 	{
 		$files = [];
-		/** @var \SplFileInfo $file */
+		/** @var SplFileInfo $file */
 		foreach ($this->getFinder(['some-file', 'anotherFile', 'čeština'])->sortByName() as $file) {
 			$files[] = $file->getFilename();
 		}
-		/** @var \SplFileInfo $file */
+		/** @var SplFileInfo $file */
 		foreach ($this->getFinder(['ahoj', 'Test', 'ČekDis'])->sortByName(
 			Finder::ORDER_DESC,
 			Finder::CASE_SENSITIVE
@@ -81,4 +87,5 @@ class FinderTest extends TestCase
 		}
 		return $dir->url();
 	}
+
 }

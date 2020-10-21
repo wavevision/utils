@@ -57,4 +57,5 @@ class ServerTest extends TestCase
 	{
 		return $this->getFunctionMock(Strings::getNamespace(Server::class), $function);
 	}
+
 }

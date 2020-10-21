@@ -6,6 +6,7 @@ use Nette\InvalidStateException;
 use PHPUnit\Framework\TestCase;
 use Wavevision\Utils\ImageInfo;
 use Wavevision\Utils\Path;
+use function sprintf;
 
 class ImageInfoTest extends TestCase
 {
