@@ -1,16 +1,18 @@
 <?xml version="1.0"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         colors="true"
-         backupGlobals="false"
-         backupStaticAttributes="false"
-         beStrictAboutChangesToGlobalState="true"
-         beStrictAboutOutputDuringTests="true"
-         beStrictAboutTestsThatDoNotTestAnything="true"
-         beStrictAboutTodoAnnotatedTests="true"
-         cacheResult="true"
-         cacheResultFile="temp/.phpunit.result.cache"
-         stopOnDefect="true" executionOrder="defects"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        colors="true"
+        backupGlobals="false"
+        backupStaticAttributes="false"
+        beStrictAboutChangesToGlobalState="true"
+        beStrictAboutOutputDuringTests="true"
+        beStrictAboutTestsThatDoNotTestAnything="true"
+        beStrictAboutTodoAnnotatedTests="true"
+        cacheResult="true"
+        cacheResultFile="temp/.phpunit.result.cache"
+        stopOnDefect="true"
+        executionOrder="defects"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
     <coverage processUncoveredFiles="true">
         <include>
@@ -21,7 +23,7 @@
         </report>
     </coverage>
     <testsuites>
-        <testsuite name="Wavevision Utils">
+        <testsuite name="Tests">
             <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
