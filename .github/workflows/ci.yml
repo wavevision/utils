@@ -1,0 +1,48 @@
+name: CI
+on:
+  - push
+  - pull_request
+
+jobs:
+  php:
+    name: Php
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Php extensions cache
+        id: phpcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: 7.4
+          extensions: pcov
+          key: v1
+      - name: Cache Php extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.phpcache.outputs.dir }}
+          key: ${{ steps.phpcache.outputs.key }}
+          restore-keys: ${{ steps.phpcache.outputs.key }}
+      - name: Setup Php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+      - name: Setup composer cache
+        id: composercache
+        run: echo ::set-output name=dir::$(composer config cache-files-dir)
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composercache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Setup PCOV
+        run: pecl install pcov
+      - name: Install dependencies
+        run: composer install
+      - name: CI
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make ci
+
+

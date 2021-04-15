@@ -385,7 +385,7 @@ class Arrays extends NetteArrays
 	 */
 	public static function jsonPath(array $data, string $expression)
 	{
-		return (new JSONPath($data))->find($expression)->data();
+		return (new JSONPath($data))->find($expression)->getData();
 	}
 
 	/**

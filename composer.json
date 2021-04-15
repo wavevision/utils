@@ -28,9 +28,6 @@
     }
   },
   "config": {
-    "platform": {
-      "php": "7.4"
-    },
     "sort-packages": true
   },
   "require": {
@@ -41,13 +38,13 @@
     "ext-zip": "*",
     "nette/finder": "^2.5",
     "nette/utils": "^3.1",
-    "softcreatr/jsonpath": "^0.6.4"
+    "softcreatr/jsonpath": "^0.7.3"
   },
   "require-dev": {
     "mikey179/vfsstream": "^1.6",
     "php-coveralls/php-coveralls": "^2.1",
     "phpunit/phpunit": "^9.4",
-    "wavevision/coding-standard": "^5.2"
+    "wavevision/coding-standard": "^6.0"
   },
   "extra": {
     "phpstan": {}
