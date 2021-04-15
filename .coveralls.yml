@@ -1,2 +1,2 @@
-service_name: travis-ci
+service_name: github-actions
 json_path: temp/coveralls.json
