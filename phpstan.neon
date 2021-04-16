@@ -1,2 +1,3 @@
 parameters:
 	tmpDir: %currentWorkingDirectory%/temp
+	level: max

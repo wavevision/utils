@@ -38,7 +38,7 @@ phpcbf:
 	$(bin)/phpcbf -spn --standard=$(codeSnifferRuleset) --extensions=php $(dirs) ; true
 
 phpstan:
-	$(bin)/phpstan analyze $(dirs) --level max
+	$(bin)/phpstan analyze $(dirs)
 
 # Tests
 
