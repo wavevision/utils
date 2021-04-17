@@ -26,6 +26,7 @@ The package contains useful classes for:
 - [FileInfo](./src/Utils/FileInfo.php) – get file info (basename, dirname, extension etc.)
 - [Finder](./src/Utils/Finder.php) – adds sorting to [nette/finder](https://github.com/nette/finder)
 - [ImageInfo](./src/Utils/ImageInfo.php) – get image content type and size
+- [ImmutableObject](./src/Utils/ImmutableObject.php) – combines `Nette\SmartObject` and `withMutation` helper
 - [Json](./src/Utils/Json.php) – JSON pretty encoder with PHP and JavaScript indents
 - [Objects](./src/Utils/Objects.php) – dynamic get / set, get namespace, classname etc.
 - [Path](./src/Utils/Path.php) – join path parts, stringify path object etc.
