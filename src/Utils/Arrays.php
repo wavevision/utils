@@ -485,11 +485,11 @@ class Arrays extends NetteArrays
 	 * @return array<mixed>
 	 */
 	public static function mergeRecursiveDistinct(
-		array &$a1,
-		array &$a2
+		array $a1,
+		array $a2
 	): array {
 		$result = $a1;
-		foreach ($a2 as $key => &$value) {
+		foreach ($a2 as $key => $value) {
 			if (is_array($value) && isset($result[$key]) && is_array($result[$key])) {
 				$result[$key] = self::mergeRecursiveDistinct($result[$key], $value);
 			} else {
